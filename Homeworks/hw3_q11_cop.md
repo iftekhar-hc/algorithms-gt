@@ -7,11 +7,9 @@ The main obstacle is that LP1 has a very restricted form:
 
 LP2 has neither restriction: its variables are unrestricted in sign, and its constraints are inequalities. The hint gives exactly the two transformations needed.
 
----
+*1. Background: What does “efficiently represent” mean?*
 
-## 1. Background: What Does “Efficiently Represent” Mean?
-
-We need a **polynomial-time reduction** from LP2 to LP1.
+We need a polynomial-time reduction from LP2 to LP1.
 
 Given an instance of LP2, we must:
 
@@ -21,68 +19,60 @@ Given an instance of LP2, we must:
 
 “Equivalent” means that the transformation preserves:
 
-- feasibility,
-- infeasibility,
-- boundedness or unboundedness,
-- and the optimal objective value.
+- Feasibility
+- Infeasibility
+- Boundedness or unboundedness of the objective
+- The optimal objective value
 
----
+*2. Difficulty 1: LP2 variables are unrestricted*
 
-## 2. Difficulty 1: LP2 Variables Are Unrestricted
+In LP2, each variable \(x_i\) may be positive, zero, or negative:
 
-In LP2, each variable $x_i$ may be positive, zero, or negative:
-
-$$
+\[
 x_i \in \mathbb{R}.
-$$
+\]
 
-But LP1 requires all variables to satisfy $x_i \ge 0$.
+But LP1 requires all variables to satisfy \(x_i \ge 0\).
 
-### Splitting an unrestricted variable
+For every original variable \(x_i\), introduce two new variables:
 
-For every original variable $x_i$, introduce two new variables:
-
-$$
+\[
 x_i^+ \ge 0,
 \qquad
 x_i^- \ge 0,
-$$
+\]
 
 and define
 
-$$
+\[
 x_i = x_i^+ - x_i^-.
-$$
+\]
 
 This can represent every real number:
 
-- If $x_i=5$, choose $x_i^+=5$ and $x_i^-=0$.
-- If $x_i=-3$, choose $x_i^+=0$ and $x_i^-=3$.
-- If $x_i=0$, choose $x_i^+=x_i^-=0$.
+- If \(x_i=5\), choose \(x_i^+=5\) and \(x_i^-=0\).
+- If \(x_i=-3\), choose \(x_i^+=0\) and \(x_i^-=3\).
+- If \(x_i=0\), choose \(x_i^+=x_i^-=0\).
 
 More generally, several pairs may represent the same value. For example,
 
-$$
+\[
 5=5-0=7-2=100-95.
-$$
+\]
 
-This nonuniqueness does not cause a problem because the objective and constraints depend only on the difference $x_i^+-x_i^-$.
+This nonuniqueness does not cause a problem because the objective and constraints depend only on the difference \(x_i^+-x_i^-\).
 
-### Vector form
+In vector form, introduce
 
-Introduce
-
-$$
+\[
 x^+,x^- \in \mathbb{R}_{\ge 0}^n.
-$$
+\]
 
 Then
 
-$$
+\[
 x=x^+-x^-.
-$$
-
-### Visualization
+\]
 
 ```text
 Unrestricted real variable x_i
@@ -101,44 +91,39 @@ negative direction <------ 0 ------> positive direction
        represented by x_i^-         represented by x_i^+
 ```
 
----
-
-## 3. Difficulty 2: LP2 Has Inequality Constraints
+*3. Difficulty 2: LP2 has inequality constraints*
 
 LP2 contains
 
-$$
+\[
 Ax \le b.
-$$
+\]
 
-For each constraint $j$, introduce a nonnegative **slack variable** $z_j \ge 0$:
+For each constraint \(j\), introduce a nonnegative slack variable \(z_j \ge 0\):
 
-$$
+\[
 \sum_{i=1}^n A_{ji}x_i+z_j=b_j.
-$$
+\]
 
 Equivalently,
 
-$$
+\[
 z_j=b_j-\sum_{i=1}^n A_{ji}x_i.
-$$
+\]
 
-The condition $z_j\ge 0$ is equivalent to
+The condition \(z_j\ge 0\) is equivalent to
 
-$$
+\[
 \sum_{i=1}^n A_{ji}x_i\le b_j.
-$$
+\]
 
 Thus,
 
-$$
+\[
 Ax\le b
 \quad\Longleftrightarrow\quad
-Ax+z=b,
-\qquad z\ge 0.
-$$
-
-### Interpretation of the slack
+\exists z\ge 0:\ Ax+z=b.
+\]
 
 The slack measures the unused portion of the constraint:
 
@@ -149,88 +134,85 @@ left-hand side + unused capacity = right-hand side
 
 For instance,
 
-$$
+\[
 x_1+x_2\le 10
-$$
+\]
 
 becomes
 
-$$
+\[
 x_1+x_2+z=10,
 \qquad z\ge 0.
-$$
+\]
 
-If $x_1+x_2=7$, then $z=3$. If $x_1+x_2=10$, then $z=0$.
+If \(x_1+x_2=7\), then \(z=3\). If \(x_1+x_2=10\), then \(z=0\).
 
----
-
-## 4. Apply Both Transformations
+*4. Apply both transformations*
 
 The original LP2 is
 
-$$
+\[
 \begin{aligned}
-\text{maximize}\quad & c^Tx\\
+\text{maximize}\quad & c^T x\\
 \text{subject to}\quad & Ax\le b,
 \end{aligned}
-$$
+\]
 
-where $x$ is unrestricted.
+where \(x\) is unrestricted.
 
 Substitute
 
-$$
+\[
 x=x^+-x^-.
-$$
+\]
 
 The objective becomes
 
-$$
-c^Tx
+\[
+c^T x
 =
 c^T(x^+-x^-)
 =
-c^Tx^+-c^Tx^-.
-$$
+c^T x^+-c^T x^-.
+\]
 
 The constraints become
 
-$$
+\[
 A(x^+-x^-)\le b,
-$$
+\]
 
 or
 
-$$
+\[
 Ax^+-Ax^-\le b.
-$$
+\]
 
-Now introduce the slack vector $z\ge 0$:
+Now introduce the slack vector \(z\ge 0\):
 
-$$
+\[
 Ax^+-Ax^-+z=b.
-$$
+\]
 
 Therefore, the LP1 instance is
 
-$$
+\[
 \boxed{
 \begin{aligned}
 \text{maximize}\quad
-& c^Tx^+-c^Tx^-\\
+& c^T x^+-c^T x^-\\
 \text{subject to}\quad
 & Ax^+-Ax^-+z=b,\\
 & x^+\ge 0,\quad x^-\ge 0,\quad z\ge 0.
-\end{aligned}}
-$$
+\end{aligned}
+}
+\]
 
 This has exactly the LP1 form: equality constraints and nonnegative variables.
 
-### Matrix form
+For the matrix form, define
 
-Define
-
-$$
+\[
 y=
 \begin{bmatrix}
 x^+\\
@@ -240,7 +222,7 @@ z
 \qquad
 \widetilde A=
 \begin{bmatrix}
-A&-A&I_m
+A & -A & I_m
 \end{bmatrix},
 \qquad
 \widetilde c=
@@ -249,295 +231,289 @@ c\\
 -c\\
 0
 \end{bmatrix}.
-$$
+\]
 
 Then the converted problem is
 
-$$
+\[
 \begin{aligned}
 \text{maximize}\quad & \widetilde c^T y\\
 \text{subject to}\quad & \widetilde A y=b,\\
 & y\ge 0.
 \end{aligned}
-$$
+\]
 
 This is an instance of LP1.
 
----
-
-## 5. Why the Transformation Is Correct
+*5. Why the transformation is correct*
 
 We prove equivalence in both directions.
 
-### Direction 1: LP2 feasible implies the constructed LP1 is feasible
+Direction 1: LP2 feasible implies the constructed LP1 is feasible.
 
-Suppose $x$ satisfies
+Suppose \(x\) satisfies
 
-$$
+\[
 Ax\le b.
-$$
+\]
 
 Define
 
-$$
+\[
 x_i^+=\max\{x_i,0\},
 \qquad
 x_i^-=\max\{-x_i,0\}.
-$$
+\]
 
 Then
 
-$$
+\[
 x=x^+-x^-.
-$$
+\]
 
 Also define
 
-$$
+\[
 z=b-Ax.
-$$
+\]
 
-Since $Ax\le b$, we have $z\ge 0$. Therefore,
+Since \(Ax\le b\), we have \(z\ge 0\). Therefore,
 
-$$
+\[
 \begin{aligned}
 Ax^+-Ax^-+z
 &=A(x^+-x^-)+(b-Ax)\\
 &=Ax+b-Ax\\
 &=b.
 \end{aligned}
-$$
+\]
 
-So $(x^+,x^-,z)$ is feasible for the LP1 instance.
+So \((x^+,x^-,z)\) is feasible for the LP1 instance.
 
 The objective is preserved:
 
-$$
-c^Tx^+-c^Tx^-
+\[
+c^T x^+-c^T x^-
 =
 c^T(x^+-x^-)
 =
-c^Tx.
-$$
+c^T x.
+\]
 
-### Direction 2: constructed LP1 feasible implies LP2 is feasible
+Direction 2: Constructed LP1 feasible implies LP2 is feasible.
 
-Suppose $(x^+,x^-,z)$ satisfies
+Suppose \((x^+,x^-,z)\) satisfies
 
-$$
+\[
 Ax^+-Ax^-+z=b
-$$
+\]
 
 with
 
-$$
+\[
 x^+,x^-,z\ge 0.
-$$
+\]
 
 Recover the original variable by setting
 
-$$
+\[
 x=x^+-x^-.
-$$
+\]
 
 Then
 
-$$
+\[
 Ax+z=b,
-$$
+\]
 
 so
 
-$$
+\[
 Ax=b-z.
-$$
+\]
 
-Because $z\ge 0$,
+Because \(z\ge 0\),
 
-$$
+\[
 b-z\le b.
-$$
+\]
 
 Therefore,
 
-$$
+\[
 Ax\le b.
-$$
+\]
 
-Thus, $x$ is feasible for LP2, and again,
+Thus, \(x\) is feasible for LP2, and again,
 
-$$
-c^Tx=c^Tx^+-c^Tx^-.
-$$
+\[
+c^T x=c^T x^+-c^T x^-.
+\]
 
 Therefore, feasibility and objective values are preserved in both directions.
 
----
-
-## 6. Why the Reduction Takes Polynomial Time
+*6. Why the reduction takes polynomial time*
 
 The original LP2 has:
 
-- $n$ variables,
-- $m$ constraints.
+- \(n\) variables
+- \(m\) constraints
 
 The transformed LP1 has:
 
-- $2n+m$ variables:
-  - $n$ variables in $x^+$,
-  - $n$ variables in $x^-$,
-  - $m$ slack variables in $z$;
-- $m$ equality constraints.
+- \(n\) variables in \(x^+\)
+- \(n\) variables in \(x^-\)
+- \(m\) slack variables in \(z\)
+- \(2n+m\) variables in total
+- \(m\) equality constraints
 
 The new matrix is
 
-$$
-[A\; -A\; I_m].
-$$
+\[
+\begin{bmatrix}
+A & -A & I_m
+\end{bmatrix}.
+\]
 
 Constructing it only requires:
 
-- copying $A$,
-- negating $A$,
-- adding an identity matrix.
+- Copying \(A\)
+- Negating \(A\)
+- Adding an identity matrix
 
 The number of variables and coefficients grows only polynomially. Therefore, if LP1 can be solved in polynomial time, then LP2 can also be solved in polynomial time.
 
----
-
-## 7. Numerical Example
+*7. Numerical example*
 
 Consider
 
-$$
+\[
 \begin{aligned}
 \text{maximize}\quad & 3x_1-x_2\\
 \text{subject to}\quad
 & x_1+x_2\le 4,\\
 & -x_1+2x_2\le 2,
 \end{aligned}
-$$
+\]
 
-where $x_1,x_2$ are unrestricted.
+where \(x_1,x_2\) are unrestricted.
 
 Split the variables:
 
-$$
+\[
 x_1=x_1^+-x_1^-,
 \qquad
 x_2=x_2^+-x_2^-.
-$$
+\]
 
 The objective becomes
 
-$$
+\[
 3x_1^+-3x_1^- -x_2^+ +x_2^-.
-$$
+\]
 
-Introduce slack variables $z_1,z_2\ge 0$:
+Introduce slack variables \(z_1,z_2\ge 0\):
 
-$$
+\[
 x_1^+-x_1^-+x_2^+-x_2^-+z_1=4,
-$$
+\]
 
-$$
+\[
 -x_1^++x_1^-+2x_2^+-2x_2^-+z_2=2.
-$$
+\]
 
 Thus, the LP1 instance is
 
-$$
+\[
 \begin{aligned}
 \text{maximize}\quad
-&3x_1^+-3x_1^- -x_2^+ +x_2^-\\
+& 3x_1^+-3x_1^- -x_2^+ +x_2^-\\
 \text{subject to}\quad
-&x_1^+-x_1^-+x_2^+-x_2^-+z_1=4,\\
-&-x_1^++x_1^-+2x_2^+-2x_2^-+z_2=2,\\
-&x_1^+,x_1^-,x_2^+,x_2^-,z_1,z_2\ge0.
+& x_1^+-x_1^-+x_2^+-x_2^-+z_1=4,\\
+& -x_1^++x_1^-+2x_2^+-2x_2^-+z_2=2,\\
+& x_1^+,x_1^-,x_2^+,x_2^-,z_1,z_2\ge 0.
 \end{aligned}
-$$
+\]
 
-For example, $x_1=2,x_2=1$ is feasible in the original problem. It corresponds to
+For example, \(x_1=2,x_2=1\) is feasible in the original problem. It corresponds to
 
-$$
+\[
 x_1^+=2,\quad x_1^-=0,\quad
 x_2^+=1,\quad x_2^-=0.
-$$
+\]
 
 The slacks are
 
-$$
+\[
 z_1=4-(2+1)=1,
-$$
+\]
 
-$$
+\[
 z_2=2-(-2+2)=2.
-$$
+\]
 
 Therefore,
 
-$$
+\[
 (x_1^+,x_1^-,x_2^+,x_2^-,z_1,z_2)
 =
 (2,0,1,0,1,2)
-$$
+\]
 
 is feasible in the transformed LP.
 
 ---
 
-# 11.2 Deriving Farkas’ Lemma B from Lemma A
+# 11.2 Deriving Farkas’ Lemma B
 
 The same transformation converts the inequality system in Lemma B into the equality system covered by Lemma A.
 
----
-
-## 1. Start with the System in Lemma B
+*1. Start with the system in Lemma B*
 
 We are given
 
-$$
+\[
 Ax\le b,
-$$
+\]
 
-where $x$ is unrestricted.
+where \(x\) is unrestricted.
 
 Introduce
 
-$$
+\[
 x=x^+-x^-,
-\qquad x^+,x^-\ge0,
-$$
+\qquad x^+,x^-\ge 0,
+\]
 
 and slack variables
 
-$$
-z\ge0.
-$$
+\[
+z\ge 0.
+\]
 
 Then
 
-$$
+\[
 Ax\le b
-$$
+\]
 
 is equivalent to
 
-$$
+\[
 Ax^+-Ax^-+z=b,
-$$
+\]
 
 with
 
-$$
-x^+,x^-,z\ge0.
-$$
+\[
+x^+,x^-,z\ge 0.
+\]
 
 In block matrix form,
 
-$$
+\[
 \begin{bmatrix}
-A&-A&I_m
+A & -A & I_m
 \end{bmatrix}
 \begin{bmatrix}
 x^+\\
@@ -545,140 +521,136 @@ x^-\\
 z
 \end{bmatrix}
 =b.
-$$
+\]
 
 Define
 
-$$
+\[
 M=
 \begin{bmatrix}
-A&-A&I_m
+A & -A & I_m
 \end{bmatrix}.
-$$
+\]
 
 We can now apply Farkas’ Lemma A to
 
-$$
+\[
 My=b,
-\qquad y\ge0.
-$$
+\qquad y\ge 0.
+\]
 
----
+*2. Apply Farkas’ Lemma A*
 
-## 2. Apply Farkas’ Lemma A
+Lemma A says the transformed system is infeasible if and only if there exists a vector \(\lambda\in\mathbb{R}^m\) such that
 
-Lemma A says the transformed system is infeasible if and only if there exists a vector $\lambda\in\mathbb R^m$ such that
-
-$$
-\lambda^Tb<0
-$$
+\[
+\lambda^T b<0
+\]
 
 and
 
-$$
-\lambda^TM\ge0.
-$$
+\[
+\lambda^T M\ge 0.
+\]
 
 Since
 
-$$
-M=[A\; -A\; I_m],
-$$
-
-the condition $\lambda^TM\ge0$ means
-
-$$
+\[
+M=
 \begin{bmatrix}
-\lambda^TA&
--\lambda^TA&
-\lambda^T
+A & -A & I_m
+\end{bmatrix},
+\]
+
+the condition \(\lambda^T M\ge 0\) means
+
+\[
+\begin{bmatrix}
+\lambda^T A & -\lambda^T A & \lambda^T
 \end{bmatrix}
-\ge0.
-$$
+\ge 0.
+\]
 
 This gives three sets of conditions.
 
-### Columns corresponding to $x^+$
+For the columns corresponding to \(x^+\),
 
-$$
-\lambda^TA\ge0.
-$$
+\[
+\lambda^T A\ge 0.
+\]
 
-### Columns corresponding to $x^-$
+For the columns corresponding to \(x^-\),
 
-$$
--\lambda^TA\ge0.
-$$
+\[
+-\lambda^T A\ge 0.
+\]
 
 Equivalently,
 
-$$
-\lambda^TA\le0.
-$$
+\[
+\lambda^T A\le 0.
+\]
 
 Combining the two,
 
-$$
-\lambda^TA\ge0
+\[
+\lambda^T A\ge 0
 \quad\text{and}\quad
-\lambda^TA\le0,
-$$
+\lambda^T A\le 0,
+\]
 
 so
 
-$$
-\boxed{\lambda^TA=0.}
-$$
+\[
+\boxed{\lambda^T A=0.}
+\]
 
 Componentwise,
 
-$$
-\sum_{j=1}^m\lambda_jA_{ji}=0,
+\[
+\sum_{j=1}^m \lambda_j A_{ji}=0,
 \qquad i=1,\ldots,n.
-$$
+\]
 
-### Columns corresponding to $z$
+For the columns corresponding to \(z\), the slack-variable coefficient matrix is \(I_m\), so
 
-Because the slack-variable coefficient matrix is $I_m$,
-
-$$
-\lambda^TI_m\ge0.
-$$
+\[
+\lambda^T I_m\ge 0.
+\]
 
 Therefore,
 
-$$
-\boxed{\lambda\ge0.}
-$$
+\[
+\boxed{\lambda\ge 0.}
+\]
 
 Together with the remaining Lemma A condition,
 
-$$
-\boxed{\lambda^Tb<0,}
-$$
+\[
+\boxed{\lambda^T b<0,}
+\]
 
 we obtain exactly Farkas’ Lemma B:
 
-$$
-\lambda_j\ge0,
-$$
+\[
+\lambda_j\ge 0,
+\qquad j=1,\ldots,m,
+\]
 
-$$
-\sum_{j=1}^m\lambda_jb_j<0,
-$$
+\[
+\sum_{j=1}^m \lambda_j b_j<0,
+\]
 
 and
 
-$$
-\sum_{j=1}^m\lambda_jA_{ji}=0
-\qquad\text{for every }i.
-$$
+\[
+\sum_{j=1}^m \lambda_j A_{ji}=0,
+\qquad i=1,\ldots,n.
+\]
 
 Therefore, Lemma A implies Lemma B.
 
----
-
-## 3. Visualizing Where the Conditions Come From
+*3. Visualizing where the conditions come from*
 
 ```text
 Original inequality system
@@ -703,99 +675,95 @@ lambda^T [A | -A | I] >= 0
           lambda^T A = 0
 ```
 
-The equality $\lambda^TA=0$ appears because every unrestricted variable creates both an $A$ column and a $-A$ column.
+The equality \(\lambda^T A=0\) appears because every unrestricted variable creates both an \(A\) column and a \(-A\) column.
 
-The condition $\lambda\ge0$ appears because every inequality introduces a slack-variable column from the identity matrix.
+The condition \(\lambda\ge 0\) appears because every inequality introduces a slack-variable column from the identity matrix.
 
----
+*4. Why \(\lambda\) is a certificate of infeasibility*
 
-## 4. Why $\lambda$ Is a Certificate of Infeasibility
+Suppose a vector \(\lambda\) satisfies
 
-Suppose a vector $\lambda$ satisfies
-
-$$
-\lambda\ge0,
+\[
+\lambda\ge 0,
 \qquad
-\lambda^TA=0,
+\lambda^T A=0,
 \qquad
-\lambda^Tb<0.
-$$
+\lambda^T b<0.
+\]
 
-Assume, for contradiction, that some $x$ satisfies
+Assume, for contradiction, that some \(x\) satisfies
 
-$$
+\[
 Ax\le b.
-$$
+\]
 
-Because $\lambda\ge0$, multiplying each inequality by $\lambda_j$ and adding preserves the inequality:
+Because \(\lambda\ge 0\), multiplying each inequality by \(\lambda_j\) and adding preserves the inequality:
 
-$$
-\lambda^TAx\le\lambda^Tb.
-$$
+\[
+\lambda^T Ax\le \lambda^T b.
+\]
 
 But
 
-$$
-\lambda^TA=0,
-$$
+\[
+\lambda^T A=0,
+\]
 
 so
 
-$$
-\lambda^TAx=0.
-$$
+\[
+\lambda^T Ax=0.
+\]
 
 Consequently,
 
-$$
-0\le\lambda^Tb.
-$$
+\[
+0\le \lambda^T b.
+\]
 
 This contradicts
 
-$$
-\lambda^Tb<0.
-$$
+\[
+\lambda^T b<0.
+\]
 
-Therefore, no feasible $x$ can exist.
+Therefore, no feasible \(x\) can exist.
 
-The vector $\lambda$ is called a **certificate of infeasibility** because anyone can verify the three conditions and conclude immediately that the original system is infeasible.
+The vector \(\lambda\) is called a certificate of infeasibility because anyone can verify the three conditions and conclude immediately that the original system is infeasible.
 
----
-
-## 5. Concrete Farkas Certificate Example
+*5. Concrete Farkas certificate example*
 
 Consider
 
-$$
-x\le0
-$$
+\[
+x\le 0
+\]
 
 and
 
-$$
--x\le-1.
-$$
+\[
+-x\le -1.
+\]
 
-The second inequality means $x\ge1$. Thus, the system requires
+The second inequality means \(x\ge 1\). Thus, the system requires
 
-$$
-x\le0
+\[
+x\le 0
 \quad\text{and}\quad
-x\ge1,
-$$
+x\ge 1,
+\]
 
 which is impossible.
 
 Write it as
 
-$$
+\[
 Ax\le b,
-$$
+\]
 
 where
 
-$$
+\[
 A=
 \begin{bmatrix}
 1\\
@@ -807,59 +775,59 @@ b=
 0\\
 -1
 \end{bmatrix}.
-$$
+\]
 
 Choose
 
-$$
+\[
 \lambda=
 \begin{bmatrix}
 1\\
 1
 \end{bmatrix}.
-$$
+\]
 
 Check the conditions.
 
-### Nonnegativity
+Nonnegativity:
 
-$$
-\lambda\ge0.
-$$
+\[
+\lambda\ge 0.
+\]
 
-### Cancellation of variables
+Cancellation of variables:
 
-$$
-\lambda^TA
+\[
+\lambda^T A
 =
 1(1)+1(-1)
 =
 0.
-$$
+\]
 
-### Negative combination of right-hand sides
+Negative combination of right-hand sides:
 
-$$
-\lambda^Tb
+\[
+\lambda^T b
 =
 1(0)+1(-1)
 =
 -1<0.
-$$
+\]
 
-Therefore, $\lambda=(1,1)^T$ certifies infeasibility.
+Therefore, \(\lambda=(1,1)^T\) certifies infeasibility.
 
 The weighted sum of the original inequalities is
 
-$$
-x+(-x)\le0+(-1),
-$$
+\[
+x+(-x)\le 0+(-1),
+\]
 
 which simplifies to
 
-$$
-0\le-1.
-$$
+\[
+0\le -1.
+\]
 
 This impossible inequality proves that the original system has no solution.
 
@@ -867,75 +835,86 @@ This impossible inequality proves that the original system has no solution.
 
 # Key Patterns to Remember
 
-## LP2 to LP1
+*LP2 to LP1*
 
-$$
-\boxed{x=x^+-x^-,\qquad x^+,x^-\ge0}
-$$
+\[
+\boxed{x=x^+-x^-,\qquad x^+,x^-\ge 0}
+\]
 
 handles unrestricted variables.
 
-$$
-\boxed{Ax+z=b,\qquad z\ge0}
-$$
+\[
+\boxed{Ax+z=b,\qquad z\ge 0}
+\]
 
-handles $\le$ constraints.
+handles \(\le\) constraints.
 
 Together,
 
-$$
+\[
 \boxed{
 Ax\le b
 \iff
-Ax^+-Ax^-+z=b,
-\quad x^+,x^-,z\ge0.
+\exists x^+,x^-,z\ge 0:
+\begin{cases}
+x=x^+-x^-,\\
+Ax^+-Ax^-+z=b.
+\end{cases}
 }
-$$
+\]
 
-## Farkas A to Farkas B
+*Farkas A to Farkas B*
 
 Apply Lemma A to
 
-$$
-[A\; -A\; I]
+\[
 \begin{bmatrix}
-x^+\\x^-\\z
+A & -A & I_m
+\end{bmatrix}
+\begin{bmatrix}
+x^+\\
+x^-\\
+z
 \end{bmatrix}
 =b.
-$$
+\]
 
 Then
 
-$$
-\lambda^T[A\; -A\; I]\ge0
-$$
+\[
+\lambda^T
+\begin{bmatrix}
+A & -A & I_m
+\end{bmatrix}
+\ge 0
+\]
 
 produces
 
-$$
-\lambda^TA\ge0,
+\[
+\lambda^T A\ge 0,
 \qquad
--\lambda^TA\ge0,
+-\lambda^T A\ge 0,
 \qquad
-\lambda\ge0.
-$$
+\lambda\ge 0.
+\]
 
 The first two imply
 
-$$
-\lambda^TA=0.
-$$
+\[
+\lambda^T A=0.
+\]
 
 Thus,
 
-$$
+\[
 \boxed{
 Ax\le b\text{ is infeasible}
 \iff
-\exists\lambda\ge0:
-\lambda^TA=0,\;
-\lambda^Tb<0.
+\exists \lambda\ge 0:
+\lambda^T A=0,\quad
+\lambda^T b<0.
 }
-$$
+\]
 
-> **Common sign error:** Do not use $Ax-z=b$ for a $\le$ constraint. The correct conversion is $Ax+z=b$, because $z=b-Ax\ge0$.
+> Common sign error: Do not use \(Ax-z=b\) for a \(\le\) constraint. The correct conversion is \(Ax+z=b\), because \(z=b-Ax\ge 0\).
