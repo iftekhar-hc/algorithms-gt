@@ -166,9 +166,9 @@ This is an **upper bound** on the minimum cost because we have exhibited a concr
 
 ---
 
-## 3. Prove that every feasible solution costs at least $30
+## 3. Prove that every feasible solution costs at least $30$
 
-Finding a feasible solution costing $30 does not by itself prove optimality. There could, in principle, be another feasible solution costing $29 or $25.
+Finding a feasible solution costing $30$ does not by itself prove optimality. There could, in principle, be another feasible solution costing $29$ or $25$.
 
 We therefore need a **lower bound** that applies to every feasible solution.
 
@@ -550,7 +550,7 @@ $$
 3(8)+2(4)=32.
 $$
 
-This solution is feasible, but it costs $32, which is more than the optimal cost of $30.
+This solution is feasible, but it costs $32$, which is more than the optimal cost of $30.
 
 ### Another feasible but expensive solution
 
