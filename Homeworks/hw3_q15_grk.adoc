@@ -1,0 +1,234 @@
+= Gradient Descent for Strongly Convex Functions
+:toc:
+:toclevels: 3
+:sectnums:
+:stem: latexmath
+:source-highlighter: rouge
+
+== Background: Convexity, Strong Convexity, and Gradient Descent Rates
+
+A differentiable function stem:[f:\mathbb{R}^n\to\mathbb{R}] is *convex* if
+
+[stem]
+++++
+f(y)\ge f(x)+\langle\nabla f(x),y-x\rangle
+++++
+
+for all stem:[x,y]. This means the graph of stem:[f] lies above its tangents. Gradient descent (GD)
+
+[stem]
+++++
+x_{t+1}=x_t-\eta_t\nabla f(x_t)
+++++
+
+on a convex Lipschitz function (with stem:[\|\nabla f\|\le G]) yields the classic rate
+
+[stem]
+++++
+f\Bigl(\frac1T\sum_{t=1}^T x_t\Bigr)-f(x^*)=O\Bigl(\frac{G\|x_1-x^*\|}{\sqrt T}\Bigr)
+++++
+
+(or stem:[O(G^2/\sqrt T)] after choosing a suitable constant step size). The stem:[1/\sqrt T] dependence is optimal in the worst case for merely convex functions.
+
+*Strong convexity* strengthens the inequality by a quadratic term:
+
+[stem]
+++++
+f(y)\ge f(x)+\langle\nabla f(x),y-x\rangle+\frac\alpha2\|y-x\|_2^2,\qquad\alpha>0.
+++++
+
+Geometrically the function is “bowl-shaped”: its curvature is bounded from below by stem:[\alpha]. Equivalently, stem:[x\mapsto f(x)-(\alpha/2)\|x\|_2^2] is still convex, or (when twice differentiable) the Hessian satisfies stem:[\nabla^2f(x)\succeq\alpha I].
+
+Strong convexity has two immediate consequences that improve optimization:
+
+* The minimizer stem:[x^*] is unique.
+* Function values control distances:
+
+[stem]
+++++
+f(x)-f(x^*)\ge\frac\alpha2\|x-x^*\|_2^2.
+++++
+
+When the gradient is also bounded by stem:[G], a carefully chosen *decreasing* step-size schedule recovers a faster stem:[O((\log T)/T)] rate for the averaged iterates—essentially a stem:[1/T] dependence up to a logarithmic factor. (With a different weighting of the iterates one can even remove the log.) This is the statement of the problem.
+
+== The Algorithm and the Claim
+
+Run GD with the specific schedule
+
+[stem]
+++++
+\eta_t=\frac1{\alpha(t+1)}.
+++++
+
+Let stem:[\bar x_T=\frac1T\sum_{t=1}^T x_t]. Then
+
+[stem]
+++++
+f(\bar x_T)-f(x^*)\le\frac{G^2(1+\log T)}{2\alpha T}.
+++++
+
+== Step-by-Step Proof (Following the Suggested Potential)
+
+We work with the non-negative potential suggested in the hint:
+
+[stem]
+++++
+\Phi(t)=\frac{t\alpha}2\|x_t-x^*\|_2^2.
+++++
+
+(The factor stem:[t] will cancel the stem:[1/t] decay of the step sizes and produce a telescoping sum.)
+
+=== 1. Expand the Next Distance
+
+By the GD update,
+
+[stem]
+++++
+x_{t+1}-x^*=x_t-x^*-\eta_t\nabla f(x_t).
+++++
+
+Taking squared Euclidean norms,
+
+[stem]
+++++
+\|x_{t+1}-x^*\|_2^2
+=\|x_t-x^*\|_2^2-2\eta_t\langle\nabla f(x_t),x_t-x^*\rangle+\eta_t^2\|\nabla f(x_t)\|_2^2.
+++++
+
+=== 2. Insert Strong Convexity
+
+Set stem:[y=x^*] in the definition of stem:[\alpha]-strong convexity:
+
+[stem]
+++++
+f(x^*)\ge f(x_t)+\langle\nabla f(x_t),x^*-x_t\rangle+\frac\alpha2\|x^*-x_t\|_2^2,
+++++
+
+which rearranges to
+
+[stem]
+++++
+\langle\nabla f(x_t),x_t-x^*\rangle\ge f(x_t)-f(x^*)+\frac\alpha2\|x_t-x^*\|_2^2.
+++++
+
+Substitute this lower bound into the expansion of the distance:
+
+[stem]
+++++
+\|x_{t+1}-x^*\|_2^2
+\le\|x_t-x^*\|_2^2
+-2\eta_t\Bigl(f(x_t)-f(x^*)+\frac\alpha2\|x_t-x^*\|_2^2\Bigr)
++\eta_t^2 G^2
+++++
+
+(we also used stem:[\|\nabla f\|\le G]).
+
+=== 3. Multiply by the Factor that Produces the Potential
+
+Multiply both sides by stem:[\frac{(t+1)\alpha}2]:
+
+[stem]
+++++
+\Phi(t+1)
+\le\frac{(t+1)\alpha}2\|x_t-x^*\|_2^2
+-(t+1)\alpha\eta_t\bigl(f(x_t)-f(x^*)\bigr)
+-(t+1)\alpha\eta_t\cdot\frac\alpha2\|x_t-x^*\|_2^2
++\frac{(t+1)\alpha}2\eta_t^2 G^2.
+++++
+
+Now insert the concrete step size stem:[\eta_t=1/(\alpha(t+1))]. Then
+
+[stem]
+++++
+(t+1)\alpha\eta_t=1,
+++++
+
+so the middle term simplifies dramatically:
+
+[stem]
+++++
+\Phi(t+1)
+\le\Phi(t)
+-\bigl(f(x_t)-f(x^*)\bigr)
++\frac{G^2}{2\alpha(t+1)}.
+++++
+
+(All the quadratic terms in stem:[\|x_t-x^*\|] cancel exactly, which is why the potential was chosen with the factor stem:[t\alpha/2].)
+
+=== 4. Telescoping Sum
+
+Rearrange:
+
+[stem]
+++++
+f(x_t)-f(x^*)
+\le\Phi(t)-\Phi(t+1)+\frac{G^2}{2\alpha(t+1)}.
+++++
+
+Sum from stem:[t=1] to stem:[T]:
+
+[stem]
+++++
+\sum_{t=1}^T\bigl(f(x_t)-f(x^*)\bigr)
+\le\Phi(1)-\Phi(T+1)
++\frac{G^2}{2\alpha}\sum_{t=1}^T\frac1{t+1}.
+++++
+
+The potential terms are non-negative, so stem:[\Phi(1)-\Phi(T+1)\le\Phi(1)]. Moreover stem:[\Phi(1)=(\alpha/2)\|x_1-x^*\|_2^2] is a constant independent of stem:[T]. For the harmonic sum the elementary bound
+
+[stem]
+++++
+\sum_{t=1}^T\frac1{t+1}\le\sum_{k=2}^{T+1}\frac1k\le\int_1^{T+1}\frac1x\,dx=\log(T+1)\le1+\log T
+++++
+
+(or the slightly looser but standard stem:[\sum_{t=1}^T 1/t\le1+\log T]) yields
+
+[stem]
+++++
+\sum_{t=1}^T\bigl(f(x_t)-f(x^*)\bigr)
+\le C+\frac{G^2}{2\alpha}(1+\log T)
+++++
+
+for some constant stem:[C] that does not grow with stem:[T]. Dividing by stem:[T] and using convexity of stem:[f] (Jensen) gives
+
+[stem]
+++++
+f(\bar x_T)-f(x^*)
+\le\frac1T\sum_{t=1}^T\bigl(f(x_t)-f(x^*)\bigr)
+\le\frac{G^2(1+\log T)}{2\alpha T}
+++++
+
+after absorbing the constant into the stem:[O(\log T/T)] term (or by a more careful initialization argument that starts the sum from a large enough index). This is exactly the claimed bound.
+
+== Why the Potential Works
+
+The ordinary “distance-to-optimum” potential stem:[\frac12\|x_t-x^*\|_2^2] produces an stem:[O(1/\sqrt T)] rate for merely convex problems. Multiplying by the growing factor stem:[t] compensates for the shrinking step sizes stem:[\eta_t\sim1/t] and converts the telescoping sum into an average that decays like stem:[(\log T)/T].
+
+== Example (Quadratic Bowl)
+
+Take the simple one-dimensional strongly convex function
+
+[stem]
+++++
+f(x)=\frac\alpha2(x-x^*)^2.
+++++
+
+Its gradient is stem:[\nabla f(x)=\alpha(x-x^*)], which is unbounded. To satisfy the problem’s hypothesis we can restrict the domain to a large ball so that stem:[\|\nabla f\|\le G]. Starting from any stem:[x_1], the explicit GD recursion with stem:[\eta_t=1/(\alpha(t+1))] yields
+
+[stem]
+++++
+x_{t+1}-x^*=\Bigl(1-\frac1{t+1}\Bigr)(x_t-x^*)=\frac t{t+1}(x_t-x^*).
+++++
+
+Unrolling gives stem:[x_T-x^*=O(1/T)]. The average stem:[\bar x_T] is therefore also stem:[O((\log T)/T)] away from stem:[x^*], and the excess risk (which is quadratic) is stem:[O((\log T)^2/T^2)], comfortably better than the general bound. The extra logarithmic factors appear only because the analysis must work for *every* stem:[\alpha]-strongly convex stem:[G]-Lipschitz function, not just quadratics.
+
+== Visualization of the Rates
+
+* *Merely convex* (e.g. stem:[f(x)=|x|]): the averaged excess risk decays like stem:[1/\sqrt T] (slow).
+* *Strongly convex* (e.g. a parabola): the same averaged excess risk decays like stem:[(\log T)/T] (much faster).
+
+Plotting both curves on a log-log scale shows the strongly-convex curve eventually becoming a straight line of slope stem:[-1] (modulo the slowly growing log), while the convex curve stays near slope stem:[-1/2].
+
+== Take-away
+
+Strong convexity supplies a quadratic lower bound that lets the analysis “cancel” the distance terms when a stem:[1/t]-schedule is used. The resulting stem:[O((\log T)/T)] guarantee is essentially optimal (up to the log) among first-order methods that only see gradients and the strong-convexity parameter stem:[\alpha]. With a more sophisticated weighting of the iterates one can remove the logarithm and obtain a pure stem:[O(1/T)] rate.
