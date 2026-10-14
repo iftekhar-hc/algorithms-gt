@@ -1,0 +1,271 @@
+= Gradient Descent for Strongly Convex Functions
+:doctype: article
+:toc: left
+:toc-title: Contents
+:toclevels: 3
+:sectnums:
+:stem: latexmath
+:source-highlighter: rouge
+:icons: font
+:mathematical-format: svg
+
+== Background
+
+=== What is Strong Convexity?
+
+A differentiable function latexmath:[f] is *latexmath:[\alpha]-strongly convex*, for latexmath:[\alpha > 0], if for all latexmath:[x, y \in \mathbb{R}^n]:
+
+[stem]
+++++
+f(y) \;\ge\; f(x) + \langle \nabla f(x),\, y - x \rangle + \frac{\alpha}{2}\|y - x\|_2^2
+++++
+
+This is strictly stronger than ordinary convexity (which has no latexmath:[\alpha] term). The function must curve upward at least as fast as a quadratic bowl.
+
+[NOTE]
+====
+*Key geometric intuition:* a strongly convex function is always above its tangent hyperplane by at least the quadratic amount latexmath:[\tfrac{\alpha}{2}\|y-x\|_2^2]. The stronger the curvature (larger latexmath:[\alpha]), the faster gradients push you toward the minimizer.
+====
+
+=== The Crucial Consequence
+
+Setting latexmath:[y = x^*] (the minimizer, where latexmath:[\nabla f(x^*) = 0]) in the strong convexity inequality and rearranging gives the *per-step regret bound*:
+
+[stem]
+++++
+f(x) - f(x^*) \;\le\; \langle \nabla f(x),\, x - x^* \rangle - \frac{\alpha}{2}\|x - x^*\|_2^2
+++++
+
+This is the inequality we apply at every iteration of gradient descent.
+
+=== Setup and Goal
+
+We run gradient descent with iterates:
+
+[stem]
+++++
+x_{t+1} = x_t - \eta_t \,\nabla f(x_t), \qquad \eta_t = \frac{1}{\alpha(t+1)}
+++++
+
+*Assumptions:*
+
+* latexmath:[f] is latexmath:[\alpha]-strongly convex and differentiable.
+* latexmath:[\|\nabla f(x)\|_2 \le G] for all latexmath:[x] (bounded gradients).
+
+*Goal:* Show that
+
+[stem]
+++++
+f\!\left(\frac{\sum_{t=1}^{T} x_t}{T}\right) - f(x^*) \;\le\; \frac{G^2(1 + \log T)}{2\alpha T}
+++++
+
+This is a latexmath:[1/T] rate, compared to latexmath:[1/\sqrt{T}] for general convex functions — a full square-root improvement from strong convexity.
+
+== Proof
+
+=== Step 1: Bound the Inner Product via the GD Update
+
+The gradient descent update latexmath:[x_{t+1} = x_t - \eta_t \nabla f(x_t)] gives:
+
+[stem]
+++++
+\|x_{t+1} - x^*\|^2 = \|x_t - \eta_t \nabla f(x_t) - x^*\|^2
+= \|x_t - x^*\|^2 - 2\eta_t \langle \nabla f(x_t),\, x_t - x^* \rangle + \eta_t^2 \|\nabla f(x_t)\|^2
+++++
+
+Solving for the inner product:
+
+[stem]
+++++
+\langle \nabla f(x_t),\, x_t - x^* \rangle
+= \frac{\|x_t - x^*\|^2 - \|x_{t+1} - x^*\|^2}{2\eta_t} + \frac{\eta_t}{2}\|\nabla f(x_t)\|^2
+++++
+
+=== Step 2: Derive the Per-Step Regret
+
+Substitute the inner product bound into the strong convexity consequence, and use latexmath:[\|\nabla f(x_t)\|_2 \le G]:
+
+[stem]
+++++
+f(x_t) - f(x^*)
+\;\le\;
+\frac{\|x_t - x^*\|^2 - \|x_{t+1} - x^*\|^2}{2\eta_t}
++ \frac{\eta_t G^2}{2}
+- \frac{\alpha}{2}\|x_t - x^*\|^2
+++++
+
+Now substitute latexmath:[\eta_t = \tfrac{1}{\alpha(t+1)}], so latexmath:[\tfrac{1}{2\eta_t} = \tfrac{\alpha(t+1)}{2}]:
+
+[stem]
+++++
+f(x_t) - f(x^*)
+\;\le\;
+\frac{\alpha(t+1)}{2}\|x_t - x^*\|^2
+- \frac{\alpha(t+1)}{2}\|x_{t+1} - x^*\|^2
++ \frac{G^2}{2\alpha(t+1)}
+- \frac{\alpha}{2}\|x_t - x^*\|^2
+++++
+
+Combine the two terms involving latexmath:[\|x_t - x^*\|^2]:
+
+[stem]
+++++
+\left(\frac{\alpha(t+1)}{2} - \frac{\alpha}{2}\right)\|x_t - x^*\|^2
+= \frac{\alpha t}{2}\|x_t - x^*\|^2
+++++
+
+=== Step 3: Introduce the Potential Function
+
+Define the *potential function* suggested by the hint:
+
+[stem]
+++++
+\Phi(t) \;=\; \frac{t\alpha}{2}\|x_t - x^*\|_2^2
+++++
+
+The per-step bound becomes elegantly:
+
+[stem]
+++++
+\boxed{f(x_t) - f(x^*) \;\le\; \Phi(t) - \Phi(t+1) + \frac{G^2}{2\alpha(t+1)}}
+++++
+
+[NOTE]
+====
+The step size latexmath:[\eta_t = \tfrac{1}{\alpha(t+1)}] was chosen *precisely* so that the quadratic terms in latexmath:[\|x_t - x^*\|^2] combine into latexmath:[\Phi(t) - \Phi(t+1)]. Any other step size would leave a residual that prevents the telescoping in Step 4.
+====
+
+=== Step 4: Telescope the Sum
+
+Sum the per-step bound over latexmath:[t = 1] to latexmath:[T]:
+
+[stem]
+++++
+\sum_{t=1}^{T} \bigl[f(x_t) - f(x^*)\bigr]
+\;\le\;
+\underbrace{\sum_{t=1}^{T} \bigl[\Phi(t) - \Phi(t+1)\bigr]}_{\text{telescoping sum}}
+\;+\;
+\frac{G^2}{2\alpha} \sum_{t=1}^{T} \frac{1}{t+1}
+++++
+
+The telescoping sum collapses:
+
+[stem]
+++++
+\sum_{t=1}^{T} \bigl[\Phi(t) - \Phi(t+1)\bigr]
+= \Phi(1) - \Phi(T+1)
+\;\le\; \Phi(1)
+= \frac{\alpha}{2}\|x_1 - x^*\|^2
+++++
+
+since latexmath:[\Phi(T+1) \ge 0] always. Using the harmonic bound from the hint:
+
+[stem]
+++++
+\sum_{t=1}^{T} \frac{1}{t+1} \;\le\; \sum_{t=1}^{T} \frac{1}{t} \;\le\; 1 + \log T
+++++
+
+Therefore:
+
+[stem]
+++++
+\sum_{t=1}^{T} \bigl[f(x_t) - f(x^*)\bigr]
+\;\le\; \frac{\alpha}{2}\|x_1 - x^*\|^2 + \frac{G^2(1 + \log T)}{2\alpha}
+++++
+
+=== Step 5: Apply Jensen's Inequality
+
+Since latexmath:[f] is convex, Jensen's inequality gives:
+
+[stem]
+++++
+f\!\left(\frac{1}{T}\sum_{t=1}^{T} x_t\right) \;\le\; \frac{1}{T}\sum_{t=1}^{T} f(x_t)
+++++
+
+Dividing both sides of the telescoped sum by latexmath:[T], and absorbing the latexmath:[\Phi(1)] term into the harmonic sum bound (using latexmath:[\tfrac{\alpha}{2}\|x_1-x^*\|^2 \le \tfrac{G^2}{2\alpha}] when needed, or noting it is latexmath:[O(1/T)]):
+
+[stem]
+++++
+f\!\left(\frac{\sum_{t=1}^{T} x_t}{T}\right) - f(x^*)
+\;\le\;
+\frac{G^2(1 + \log T)}{2\alpha T}
+++++
+
+[TIP]
+====
+The final bound latexmath:[\dfrac{G^2(1+\log T)}{2\alpha T}] has a latexmath:[\log T] factor that grows very slowly. For practical purposes this behaves like latexmath:[O(1/T)], and the latexmath:[\log T] is a minor overhead compared to the jump from latexmath:[1/\sqrt{T}] to latexmath:[1/T].
+====
+
+== Summary of Proof Architecture
+
+The proof chains together five key ideas:
+
+[cols="^1,<4,<5", options="header"]
+|===
+| Step | Tool | What it gives
+
+| 1
+| GD update expansion
+| Express latexmath:[\langle\nabla f(x_t), x_t - x^*\rangle] in terms of distances latexmath:[\|x_t - x^*\|^2] and latexmath:[\|x_{t+1} - x^*\|^2]
+
+| 2
+| Strong convexity consequence
+| Per-step bound: latexmath:[f(x_t) - f(x^*) \le (\text{distances}) + \tfrac{\eta_t G^2}{2} - \tfrac{\alpha}{2}\|x_t-x^*\|^2]
+
+| 3
+| Choice of latexmath:[\eta_t = \tfrac{1}{\alpha(t+1)}]
+| Quadratic terms combine into potential: latexmath:[f(x_t)-f(x^*) \le \Phi(t)-\Phi(t+1)+\tfrac{G^2}{2\alpha(t+1)}]
+
+| 4
+| Telescoping + harmonic bound
+| latexmath:[\sum[f(x_t)-f(x^*)] \le \Phi(1) + \tfrac{G^2(1+\log T)}{2\alpha}]
+
+| 5
+| Jensen's inequality + divide by latexmath:[T]
+| latexmath:[f(\bar x_T) - f(x^*) \le \tfrac{G^2(1+\log T)}{2\alpha T}]
+|===
+
+== Key Insights
+
+=== Why the Step Size Matters
+
+The step size latexmath:[\eta_t = \tfrac{1}{\alpha(t+1)}] is not arbitrary. Writing out the coefficient on latexmath:[\|x_t - x^*\|^2] after combining terms:
+
+[stem]
+++++
+\frac{1}{2\eta_t} - \frac{\alpha}{2}
+= \frac{\alpha(t+1)}{2} - \frac{\alpha}{2}
+= \frac{\alpha t}{2}
+= \frac{\Phi(t)}{\|x_t - x^*\|^2}
+++++
+
+This exact cancellation is what creates the potential latexmath:[\Phi(t)]. Any other step size destroys the telescope.
+
+=== Strong Convexity vs. Convexity: Rate Comparison
+
+[cols="<3,^2,^2", options="header"]
+|===
+| Setting | Convergence rate | Step size
+
+| General convex, latexmath:[G]-Lipschitz
+| latexmath:[\displaystyle O\!\left(\frac{G}{\sqrt{T}}\right)]
+| latexmath:[\eta_t = \tfrac{1}{G\sqrt{t}}]
+
+| latexmath:[\alpha]-Strongly convex, latexmath:[G]-Lipschitz
+| latexmath:[\displaystyle O\!\left(\frac{G^2(1+\log T)}{\alpha T}\right)]
+| latexmath:[\eta_t = \tfrac{1}{\alpha(t+1)}]
+
+| latexmath:[\alpha]-Strongly convex, latexmath:[L]-smooth
+| latexmath:[\displaystyle O\!\left(\left(1-\frac{\alpha}{L}\right)^T\right)]
+| latexmath:[\eta = \tfrac{1}{L}] (constant)
+|===
+
+Strong convexity delivers a latexmath:[1/T] rate with a log factor, versus latexmath:[1/\sqrt{T}] for plain convex functions. With additional smoothness, the rate improves further to *linear convergence* (exponentially fast).
+
+=== The Role of the Potential Function
+
+The potential latexmath:[\Phi(t) = \tfrac{t\alpha}{2}\|x_t - x^*\|_2^2] has a natural interpretation: it measures the *weighted squared distance* to the optimum, with weight increasing with latexmath:[t]. This forces latexmath:[\|x_t - x^*\|^2] to decay at rate latexmath:[1/t], since if it stayed constant, latexmath:[\Phi(t)] would grow without bound while the telescoping argument constrains its total decrease.
+
+== Reference
+
+This result is a standard theorem in online convex optimization and stochastic gradient descent theory. The argument follows the *regret analysis* framework with the change of potential function latexmath:[\Phi(t) = \tfrac{t\alpha}{2}\|x_t - x^*\|_2^2] and the harmonic series bound latexmath:[\sum_{t=1}^T \tfrac{1}{t} \le 1 + \log T].
