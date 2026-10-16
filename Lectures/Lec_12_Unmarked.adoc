@@ -1,0 +1,290 @@
+= CS 6515: Graduate Algorithms
+:stem: latexmath
+:toc:
+:toclevels: 3
+:sectnums:
+
+== Lecture 12: Convexity and Gradient Descent
+
+Instructors: Sahil Singla and Gerandy Brito
+
+Fall 2026
+
+== 1. The Offline Optimization Problem
+
+Given a function stem:[f: \mathbb{R}^d \to \mathbb{R}] and a nonempty convex set stem:[K \subseteq \mathbb{R}^d], the goal is
+
+[stem]
+++++
+\min_{x \in K} f(x).
+++++
+
+A feasible point is *ε-optimal* if
+
+[stem]
+++++
+f(x)-f(x^*) \le \varepsilon.
+++++
+
+=== Convex Function
+
+A function stem:[f] is convex on a convex set stem:[K] if for all stem:[x,y\in K] and stem:[\lambda\in[0,1]],
+
+[stem]
+++++
+f(\lambda x + (1-\lambda)y)
+\le
+\lambda f(x) + (1-\lambda)f(y).
+++++
+
+At the midpoint:
+
+[stem]
+++++
+f\!\left(\frac{x+y}{2}\right)
+\le
+\frac{f(x)+f(y)}{2}.
+++++
+
+== 2. First-Order Characterization
+
+For vectors:
+
+[stem]
+++++
+\langle u,v \rangle = u^T v,
+\quad
+\|u\|_2 = \sqrt{\sum_i u_i^2}.
+++++
+
+=== Theorem
+
+A differentiable function stem:[f] is convex iff
+
+[stem]
+++++
+f(y) \ge f(x) + \langle \nabla f(x), y-x \rangle.
+++++
+
+Important inequality:
+
+[stem]
+++++
+f(x)-f(x^*)
+\le
+\langle \nabla f(x), x-x^* \rangle.
+++++
+
+== 3. Examples and Local Minima
+
+=== Hessian Test
+
+For twice continuously differentiable functions,
+
+[stem]
+++++
+\nabla^2 f(x) \succeq 0
+++++
+
+for every stem:[x].
+
+=== Least Squares
+
+[stem]
+++++
+f(x)=\frac12\|Ax-b\|_2^2,
+++++
+
+[stem]
+++++
+\nabla f(x)=A^T(Ax-b),
+++++
+
+[stem]
+++++
+\nabla^2 f(x)=A^T A.
+++++
+
+Since
+
+[stem]
+++++
+v^T A^T A v = \|Av\|_2^2 \ge 0,
+++++
+
+least-squares is convex.
+
+=== Local Minimum Implies Global Minimum
+
+If stem:[f] is convex and stem:[K] is convex, every local minimum is a global minimum.
+
+For unconstrained optimization,
+
+[stem]
+++++
+\nabla f(x)=0
+++++
+
+is necessary and sufficient for optimality.
+
+== 4. Gradient Descent
+
+Update rule:
+
+[stem]
+++++
+x_{t+1}=x_t-\eta\nabla f(x_t).
+++++
+
+=== Why the Negative Gradient?
+
+For small stem:[h],
+
+[stem]
+++++
+f(x+h)=f(x)+\langle \nabla f(x),h\rangle+o(\|h\|^2).
+++++
+
+The steepest first-order decrease is obtained in direction
+
+[stem]
+++++
+-\nabla f(x).
+++++
+
+=== Example: stem:[f(x)=x^2/2]
+
+Update:
+
+[stem]
+++++
+x_{t+1}=(1-\eta)x_t.
+++++
+
+* stem:[\eta=1/2]: converges.
+* stem:[\eta=1]: reaches optimum immediately.
+* stem:[\eta=2]: oscillates.
+* stem:[\eta>2]: diverges.
+
+== 5. Basic Convergence Guarantee
+
+Assume:
+
+[stem]
+++++
+\|x_0-x^*\|_2 \le D,
+++++
+
+and
+
+[stem]
+++++
+\|\nabla f(x_t)\|_2 \le G.
+++++
+
+Return the average iterate:
+
+[stem]
+++++
+\bar{x}_T=\frac1T\sum_{t=0}^{T-1}x_t.
+++++
+
+=== Theorem
+
+For constant step size stem:[\eta],
+
+[stem]
+++++
+f(\bar{x}_T)-f(x^*)
+\le
+\frac{D^2}{2\eta T}+
+\frac{\eta G^2}{2}.
+++++
+
+Choosing
+
+[stem]
+++++
+\eta=\frac{D}{G\sqrt{T}}
+++++
+
+yields
+
+[stem]
+++++
+f(\bar{x}_T)-f(x^*)
+\le
+\frac{DG}{\sqrt{T}}.
+++++
+
+Therefore
+
+[stem]
+++++
+T \ge \left(\frac{DG}{\varepsilon}\right)^2
+++++
+
+is sufficient for additive error stem:[\varepsilon].
+
+=== Proof Sketch
+
+Define the potential
+
+[stem]
+++++
+R_t = \|x_t-x^*\|_2^2.
+++++
+
+Expanding one step:
+
+[stem]
+++++
+R_{t+1}
+\le
+R_t
+-2\eta(f(x_t)-f(x^*))
++\eta^2 G^2.
+++++
+
+Rearranging:
+
+[stem]
+++++
+f(x_t)-f(x^*)
+\le
+\frac{R_t-R_{t+1}}{2\eta}
++
+\frac{\eta G^2}{2}.
+++++
+
+Summing over iterations telescopes the distance terms and proves the theorem.
+
+== 6. Scope and Extensions
+
+The guarantee is additive:
+
+[stem]
+++++
+f(x)-f(x^*) \le \varepsilon.
+++++
+
+Subgradients extend the result to nonsmooth convex functions. A subgradient stem:[g] satisfies
+
+[stem]
+++++
+f(y)
+\ge
+f(x)+\langle g, y-x \rangle.
+++++
+
+For stem:[f(x)=|x|]:
+
+* stem:[g=1] when stem:[x>0]
+* stem:[g=-1] when stem:[x<0]
+* stem:[g\in[-1,1]] when stem:[x=0]
+
+Future topics:
+
+* Projected gradient descent.
+* Faster stem:[1/T] rates under smoothness.
+* Geometric convergence under stronger curvature assumptions.
