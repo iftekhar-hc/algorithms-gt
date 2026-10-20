@@ -1163,3 +1163,80 @@ $$
 $$
 
 Here, the certificates are a matching, multiplicative edge reduction, edge capacity, and a charging map. Those proof objects are more important than the superficial fact that each algorithm is “greedy.”
+
+## 18. Video Lectures
+
+Best match for your Lecture 14 material
+1. MIT 6.046J Lecture 17: Complexity and Approximation Algorithms
+
+Start here. This 81-minute lecture closely matches your notes: approximation ratios, Vertex Cover, greedy analysis, Set Cover, Partition, PTAS, and FPTAS. The Vertex Cover discussion begins around 10 minutes, Set Cover around 25 minutes, and approximation schemes around 45 minutes.
+
+Why it fits: Your lecture’s maximum-degree Vertex Cover proof is essentially the Set Cover greedy analysis, while the maximal-matching algorithm is the standard 2-approximation covered here.
+
+2. DAA 27: Approximation Algorithms and 2-Approximation for Vertex Cover
+
+This focused 45-minute lecture covers formal approximation guarantees, cardinality Vertex Cover using maximal matching, tight examples, weighted Vertex Cover, LP relaxation, and threshold rounding.
+
+Why it fits: The first half reinforces your current maximal-matching proof. The LP-rounding portion previews the next topic mentioned at the end of your lecture note.
+
+3. Rounding LP Solutions: Minimum Vertex Cover
+
+This 17-minute Carnegie Mellon University CS Theory Toolkit lecture develops the Vertex Cover integer program, LP relaxation, integrality gap, rounding rule, 2-approximation proof, and half-integrality.
+
+Why it fits: Watch this immediately after mastering the combinatorial maximal-matching argument. It explains how an LP optimum becomes a lower-bound certificate for $\operatorname{OPT}$.
+
+For broader and more visual coverage
+4. Approximation Algorithms: Vertex Cover, TSP, and Set Cover
+
+This lecture covers approximation ratios, the maximal-matching Vertex Cover algorithm, metric TSP, greedy Set Cover, and inapproximability. It also advertises interactive demonstrations for experimenting with graphs and comparing approximate solutions with optimal ones.
+
+Best use: Watch after the MIT 6.046J lecture if you want more visual intuition before redoing the proofs.
+
+5. NPTEL Approximation Algorithms
+
+For a complete graduate-level sequence, this course covers deterministic, dual, and randomized rounding; LP duality; greedy and primal-dual Set Cover; scheduling; $k$-center; metric TSP; Knapsack FPTAS; makespan PTAS; bin packing; facility location; MAX-SAT; and MAX-CUT.
+
+For your immediate material, prioritize:
+
+Lectures 1–8: approximation foundations and Set Cover
+Lectures 11–12: greedy scheduling and approximation analysis
+Lectures 17–18: pseudopolynomial Knapsack and FPTAS
+Lectures 32–35: randomized approximation and derandomization
+
+The published course outline does not specifically list directed edge-disjoint paths, so use this primarily for the underlying techniques rather than that exact problem.
+
+Recommended viewing sequence
+
+MIT 6.046J Lecture 17
+ Build the core framework: feasible solution, approximation ratio, lower bound, and comparison with $\operatorname{OPT}$.
+
+DAA 27
+ Revisit maximal-matching Vertex Cover, then continue into weighted Vertex Cover and LP rounding.
+
+CMU LP Rounding: Minimum Vertex Cover
+ Study the LP lower bound, rounding proof, and integrality gap.
+
+Approximation Algorithms: Vertex Cover, TSP, and Set Cover
+ Reinforce the algorithms through visual and interactive examples.
+
+NPTEL Approximation Algorithms
+ Continue into primal-dual algorithms, randomized rounding, PTAS/FPTAS, and broader graduate-level topics.
+
+While watching
+
+For each algorithm, write down these five items:
+
+1. What is the feasible solution?
+2. What quantity bounds OPT?
+3. Is it an upper or lower bound?
+4. How is the algorithm's value related to that bound?
+5. Which example makes the analysis tight?
+
+
+For the directed edge-disjoint paths section in your note, add:
+
+6. How is OPT partitioned into short and long paths?
+7. What is charged to each greedy path?
+8. Where is edge-disjointness used?
+9. Why is the one-path fallback necessary?
+10. Why does balancing L and m/L produce L approximately sqrt(m)?

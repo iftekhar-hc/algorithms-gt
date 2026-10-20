@@ -1374,3 +1374,77 @@ Before an exam, practice explaining these points without looking at the notes:
 These are the lecture’s core proof skills: averaging, lower-bound construction, charging, counting, and balancing competing losses. [Lecture 14]
 
 > Source note: “Lecture 14” refers to the supplied *Lec_14_Unmarked.pdf*, CS 6515: Graduate Algorithms, “Approximation Algorithms and Greedy Methods,” Sahil Singla and Gerandy Brito, Fall 2026. Textbook sources are linked inline and in Section 15. Worked examples and practice problems expand on the lecture for study purposes.
+
+## 17. Video Lectures
+Start with **MIT’s Lecture 17**, then watch Tim Roughgarden’s Lecture 17 for a deeper treatment of the proofs and their connection to linear programming. These are the closest matches to your current material on Vertex Cover, greedy Set Cover, and approximation guarantees. [ocw.mit](https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/a4a7f356ba3e65a00ad2bdcfed6e0f35_MIT6_046JS15_lec17.pdf)
+
+### 1. MIT 6.046J — “17. Complexity: Approximation Algorithms”
+Instructor: Srinivas Devadas  
+[Watch on YouTube](https://www.youtube.com/watch?v=MEz1J9wY2iM)
+
+The best starting point for reviewing your lecture. It covers approximation definitions, the matching-based 2-approximation for Vertex Cover, greedy Set Cover, and Partition. The Vertex Cover algorithm is the same “pick an uncovered edge and take both endpoints” approach from your notes. [ocw.mit](https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/a4a7f356ba3e65a00ad2bdcfed6e0f35_MIT6_046JS15_lec17.pdf)
+
+Focus on:
+- Why the selected edges provide a lower bound on the optimum.
+- Why choosing both endpoints gives a factor of \(2\).
+- How greedy Set Cover relates to choosing the highest remaining degree in Vertex Cover.
+
+### 2. Tim Roughgarden, Stanford CS261 — “Lecture 17: Linear Programming and Approximation Algorithms”
+[Watch on YouTube](https://www.youtube.com/watch?v=bCsnLNZaoPQ) · Approximately 79 minutes
+
+The strongest follow-up for your proof-based study. It covers greedy Set Cover, a dual interpretation of the greedy algorithm, LP rounding, and primal–dual approximation algorithms for Vertex Cover. [timroughgarden](https://timroughgarden.org/w16/w16.html)
+
+Focus on:
+- How to compare an algorithm with an unknown optimum.
+- Why greedy Set Cover has a logarithmic approximation guarantee.
+- How an LP relaxation supplies a lower bound.
+- Why rounding Vertex Cover variables at \(1/2\) produces a 2-approximation.
+
+This is especially relevant to the transition from your approximation lecture to LP rounding. [youtube](https://www.youtube.com/watch?v=bCsnLNZaoPQ)
+
+### 3. Tim Roughgarden, Stanford CS261 — “Lecture 15: Introduction to Approximation Algorithms”
+[Watch on YouTube](https://www.youtube.com/watch?v=OacQnsvauZs) · Approximately 80 minutes
+
+Choose this for a broader introduction before diving into the LP-based analysis. It discusses approximation algorithms through scheduling, Knapsack, Steiner Tree, set coverage, and influence maximization. [timroughgarden](https://timroughgarden.org/w16/w16.html)
+
+Focus on:
+- What a worst-case approximation guarantee actually promises.
+- How the algorithm and its analysis depend on the problem’s structure.
+- The distinction between covering every element and maximizing coverage under a constraint.
+
+One terminology caution: “Set Cover” and “set coverage” are different optimization problems; do not transfer a guarantee from one to the other without checking the objective and constraints. Roughgarden’s course treats them in different contexts. [timroughgarden](https://timroughgarden.org/w16/w16.html)
+
+### 4. “Knapsack FPTAS”
+[Watch on YouTube](https://www.youtube.com/watch?v=GyDTT3PxFP4)
+
+A focused supplement for the approximation-schemes portion of your notes. The video develops a fully polynomial-time approximation scheme for Knapsack and explains how the solution can approach the optimum arbitrarily closely. [youtube](https://www.youtube.com/watch?v=GyDTT3PxFP4)
+
+Use it to reinforce:
+- The role of the accuracy parameter \(\varepsilon\).
+- Why “polynomial for each fixed \(\varepsilon\)” differs from “polynomial in both input size and \(1/\varepsilon\).”
+- How an approximation scheme differs from a fixed-factor algorithm.
+
+### 5. Tim Roughgarden, Stanford CS261 — “Lecture 16: The Traveling Salesman Problem”
+[Watch on YouTube](https://www.youtube.com/watch?v=muHfx-nqLFc)
+
+An optional next step once the Vertex Cover proofs feel comfortable. The lecture covers inapproximability for general TSP, the minimum-spanning-tree heuristic for metric TSP, Christofides’s algorithm, and asymmetric TSP. [timroughgarden](https://timroughgarden.org/w16/w16.html)
+
+Its value is seeing the same proof strategy in another setting: construct a feasible solution, identify a structural lower bound on the optimum, and relate the two. It also illustrates why assumptions such as the triangle inequality matter to an approximation guarantee. [timroughgarden](https://timroughgarden.org/w16/w16.html)
+
+## What about edge-disjoint paths?
+
+For an advanced extension, watch [“FSTTCS L37: Edge Disjoint Paths in Networks”](https://www.youtube.com/watch?v=qP7_WiOR_uQ). It discusses approximation through multicommodity-flow LP relaxations and routing with congestion. [youtube](https://www.youtube.com/watch?v=qP7_WiOR_uQ)
+
+Treat this as a research-level extension, not a direct replacement for your lecture’s short-path greedy proof. Parts of the talk allow congestion—an edge may be used by more than one routed path—which changes the strict edge-disjointness requirement you have been studying. [youtube](https://www.youtube.com/watch?v=qP7_WiOR_uQ)
+
+## Suggested viewing order
+
+For your current lecture, I would use this sequence:
+
+1. MIT Lecture 17 — establish the basic guarantees and matching argument.
+2. Roughgarden Lecture 17 — deepen the logarithmic analysis and connect it to LP rounding.
+3. Knapsack FPTAS — review PTAS versus FPTAS.
+4. Roughgarden Lecture 15 — broaden your examples.
+5. Roughgarden Lecture 16 — practice recognizing approximation-proof patterns in a new problem.
+
+After each lecture, close the video and reconstruct three things from memory: the algorithm, the bound on \(\mathrm{OPT}\), and the inequality connecting the output to that bound. That exercise aligns directly with the proof skills emphasized in these lectures. [ocw.mit](https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/a4a7f356ba3e65a00ad2bdcfed6e0f35_MIT6_046JS15_lec17.pdf)
