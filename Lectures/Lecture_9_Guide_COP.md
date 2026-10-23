@@ -1461,3 +1461,150 @@ Lecture 9 notes
 8. LPs with rational input are solvable in polynomial time measured in binary encoding length.
 9. A compact optimal solution does not justify enumerating all vertices.
 10. LPs form a bridge from exact optimization to duality, convex optimization, and approximation algorithms.
+
+
+## 24. Video Lectures
+Based on the lecture note you shared, I’d prioritize videos on **LP formulation, feasible-region geometry, vertices, simplex, duality, and LP applications in algorithms**.
+
+## Best starting point
+
+### 1. MIT: Introduction to Linear Programming
+
+**Lecture 12: Introduction to Linear Programming**, taught by Peter Shor, covers the definition of LPs, the diet and bake-sale examples, standard and canonical forms, and an introduction to duality. It aligns especially well with the first half of your lecture note. [[youtube.com]](https://www.youtube.com/watch?v=qKNkP6IfjvY)
+
+**Recommended for:**
+
+- Formulating an LP
+- Standard and canonical forms
+- Primal and dual programs
+- A concise university-level introduction
+
+[Watch Lecture 12 on YouTube](https://www.youtube.com/watch?v=qKNkP6IfjvY) [[youtube.com]](https://www.youtube.com/watch?v=qKNkP6IfjvY)
+
+---
+
+### 2. MIT: LP, Reductions, and Simplex
+
+**Lecture 15: Linear Programming: LP, Reductions, Simplex** from MIT’s _Design and Analysis of Algorithms_ course is the strongest single lecture for connecting linear programming to algorithms. It introduces LP formulations and reductions, discusses duality, and walks through the simplex algorithm and pivoting. [[ocw.mit.edu]](https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/resources/lecture-15-linear-programming-lp-reductions-simplex/), [[youtube.com]](https://www.youtube.com/watch?v=WwMz2fJwUCg)
+
+**Recommended for:**
+
+- LPs in algorithm design
+- General LP formulations
+- Duality intuition
+- Slack form
+- Simplex and pivot operations
+- Connections to computational complexity
+
+[Watch on MIT OpenCourseWare](https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/resources/lecture-15-linear-programming-lp-reductions-simplex/) [[ocw.mit.edu]](https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/resources/lecture-15-linear-programming-lp-reductions-simplex/)
+
+[](https://www.youtube.com/watch?v=WwMz2fJwUCg)
+
+[15. Linear Programming: LP, reductions, Simplex](https://www.youtube.com/watch?v=WwMz2fJwUCg)
+
+[MIT 6.046J Design and Analysis of Algorithms, Spring 2015 View the complete course: http://ocw.mit.edu/6-046JS15 Instructor: Srinivas Devadas In this lecture, Professor Devadas introduces linear programming. License: Creative Commons BY-NC-SA More information at http://ocw.mit.edu/terms More courses at http://ocw.mit.edu](https://www.youtube.com/watch?v=WwMz2fJwUCg)
+
+---
+
+## Best complete course
+
+### 3. Cornell: Fundamentals of Linear Programming
+
+The **Fundamentals of Linear Programming** playlist contains 24 videos based on an introductory master’s-level course taught at Cornell. It covers formulation, graphical solutions, linear-algebra preparation, simplex, initial feasible solutions, degeneracy, network flows, Gurobi, weak and strong duality, complementary slackness, integer programming, branch-and-bound, logistics, and optimization under uncertainty. Course notes and handwritten lecture materials are also available through the associated course page. [[youtube.com]](https://www.youtube.com/playlist?list=PLc6nihbq_fwa4EG4kvpwz9AJlFpIoFgld)
+
+**Recommended for:**
+
+- A systematic semester-style treatment
+- Simplex calculations
+- Duality and complementary slackness
+- Network-flow formulations
+- Integer programming after LP
+- Practical solver usage
+
+[Open the Cornell playlist](https://www.youtube.com/playlist?list=PLc6nihbq_fwa4EG4kvpwz9AJlFpIoFgld) [[youtube.com]](https://www.youtube.com/playlist?list=PLc6nihbq_fwa4EG4kvpwz9AJlFpIoFgld)
+
+This would be my **primary recommendation** if you want to learn the subject thoroughly rather than watch only one or two overview lectures.
+
+---
+
+## Shorter options
+
+### 4. Graphical LP for beginners
+
+Class Central lists a 33-minute **Linear Programming** lesson from The Organic Chemistry Tutor. It focuses on translating profit and sales problems into objective functions and constraints, graphing the feasible region, and checking corner points. [[classcentral.com]](https://www.classcentral.com/subject/linear-programming)
+
+**Recommended for:**
+
+- Two-variable graphical problems
+- Feasible regions
+- Corner-point optimization
+- Quick review before solving exercises
+
+This is a good warm-up before watching the more theoretical MIT lectures.
+
+### 5. Duality-focused lecture
+
+Ryan O’Donnell’s **Linear Programming Duality**, listed through Class Central, discusses duality through Farkas’ lemma and Fourier–Motzkin elimination, including certificates of infeasibility. It is a shorter but more theoretical treatment. [[classcentral.com]](https://www.classcentral.com/subject/linear-programming)
+
+**Recommended for:**
+
+- Why dual certificates work
+- Infeasibility certificates
+- Stronger theoretical foundations
+- Preparation for approximation algorithms
+
+Watch this after you understand primal and dual LP formulations.
+
+### 6. Structured course with assessments
+
+The **Industrial Optimization: Models & Linear Programming** course on Coursera has four modules and covers LP formulation, graphical solutions, simplex, Big-M, revised simplex, dual simplex, and software-supported solution methods. Its first module introduces operations research and LP through formulation and graphical examples. [[coursera.org]](https://www.coursera.org/learn/industrial-optimization-models--linear-programming)
+
+**Recommended for:**
+
+- Guided assignments and assessments
+- Operations-research applications
+- Several simplex variants
+- A structured course experience
+
+Some course access or assessment features may require payment.
+
+---
+
+## Suggested viewing sequence
+
+### Fast track: approximately 4 to 6 hours
+
+1. **Graphical introduction** from The Organic Chemistry Tutor
+2. **MIT Lecture 12** on LP formulation and canonical forms
+3. **MIT Lecture 15** on reductions and simplex
+4. **Ryan O’Donnell’s duality lecture**
+5. Solve the quiz and exam problems from your study guide
+
+### Thorough track
+
+Work through the Cornell playlist in this order:
+
+1. Formulating optimization problems
+2. Graphical solution of LPs
+3. Linear-algebra review
+4. Simplex method
+5. Initial feasible solutions
+6. Multiple optima, unboundedness, and degeneracy
+7. Network-flow problems
+8. Weak and strong duality
+9. Complementary slackness
+10. Integer programming and branch-and-bound [[youtube.com]](https://www.youtube.com/playlist?list=PLc6nihbq_fwa4EG4kvpwz9AJlFpIoFgld)
+
+Then use the MIT algorithms lecture to reinforce how LP fits into algorithm design and reductions. [[ocw.mit.edu]](https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/resources/lecture-15-linear-programming-lp-reductions-simplex/), [[youtube.com]](https://www.youtube.com/watch?v=WwMz2fJwUCg)
+
+## Best match by topic
+
+- **Modeling and canonical form:** MIT Lecture 12
+- **Feasible-region geometry:** Organic Chemistry Tutor, then Cornell graphical LP lectures
+- **Vertices and simplex:** Cornell playlist and MIT Lecture 15
+- **Duality and optimality certificates:** Cornell duality lectures, followed by Ryan O’Donnell
+- **Maximum flow and network LPs:** Cornell network-flow lectures
+- **Algorithms and complexity:** MIT Lecture 15
+- **Solver practice:** Cornell Gurobi lecture or the Coursera course
+
+For your current lecture note, the most efficient combination is **MIT Lecture 12 → MIT Lecture 15 → Cornell’s duality and network-flow lectures**.

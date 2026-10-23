@@ -1422,3 +1422,250 @@ O(1/\sqrt{T}).
 $$
 
 The most important proof skill is not memorizing the final rate. It is recognizing how the update suggests a potential function and how convexity converts the resulting algebra into progress in objective value.
+
+
+## Video Lectures
+Based on the lecture note, you need resources that cover **convex sets and functions, first-order optimality, gradient descent, convergence proofs, subgradients, and constrained optimization**. I’d use one complete course as the backbone, then add a few shorter videos for intuition.
+
+## Best overall course
+
+### Stanford EE364A: Convex Optimization I
+
+**Instructor:** Stephen Boyd  
+**Level:** Intermediate to advanced  
+**Best for:** A rigorous, comprehensive treatment with strong geometric intuition and applications.
+
+The updated course consists of 18 lectures of roughly 75–80 minutes each. It covers convex sets, convex functions, convex optimization problems, duality, optimality conditions, numerical methods, and applications in machine learning, statistics, engineering, control, and finance. [[youtube.com]](https://www.youtube.com/playlist?list=PLoROMvodv4rMJqxxviPa4AmDClvcbHi6h)
+
+- [2023 course playlist](https://www.youtube.com/playlist?list=PLoROMvodv4rMJqxxviPa4AmDClvcbHi6h)
+- [Lecture 1](https://www.youtube.com/watch?v=kV1ru-Inzl4)
+- [Older complete 37-video collection](https://www.youtube.com/playlist?list=PL4DA205E607D8DBCB)
+
+### Why I recommend it
+
+It pairs naturally with:
+
+> Stephen Boyd and Lieven Vandenberghe, _Convex Optimization_
+
+It is especially strong for:
+
+- recognizing convex problems;
+- developing geometric intuition;
+- convex sets and functions;
+- least-squares and quadratic optimization;
+- optimality conditions;
+- Lagrange duality;
+- Newton and interior-point methods;
+- applications of convex optimization.
+
+### Limitation
+
+The course treats much more than gradient descent. If your immediate goal is specifically to understand the O(1/T)O(1/\sqrt{T})O(1/T​) proof from the lecture note, combine it with a first-order methods lecture below.
+
+---
+
+## Best focused material for gradient descent
+
+### MIT: Gradient Descent, Lecture 7
+
+**Instructor:** Gabriele Farina  
+**Course:** MIT 6.7220/15.084, Nonlinear Optimization  
+**Level:** Intermediate  
+**Best for:** A precise mathematical treatment of gradient descent and smoothness.
+
+The lecture begins with the update
+
+xt+1=xt−η∇f(xt)x_{t+1}=x_t-\eta\nabla f(x_t)xt+1​=xt​−η∇f(xt​)
+
+and develops the analysis using LLL-smoothness, including why the negative gradient is useful and how the step size determines convergence. [[mit.edu]](https://www.mit.edu/~gfarina/2024/67220s24_L07_gradient_descent/L07.pdf)
+
+The accompanying notes are particularly useful when reviewing:
+
+- first-order models;
+    
+- steepest descent;
+    
+- LLL-Lipschitz gradients;
+    
+- the descent lemma;
+    
+- step-size restrictions;
+    
+- convergence on convex and strongly convex objectives.
+    
+- [MIT Gradient Descent lecture notes](https://www.mit.edu/~gfarina/2024/67220s24_L07_gradient_descent/L07.pdf)
+    
+
+This is the best follow-up after understanding the bounded-gradient proof in your lecture note, because it introduces the stronger **smooth-function analysis** commonly used for gradient descent.
+
+---
+
+## Best course structure with freely available notes
+
+### MIT OpenCourseWare: Introduction to Convex Optimization
+
+**Course:** MIT 6.079  
+**Level:** Advanced undergraduate or beginning graduate  
+**Best for:** Systematic study with lecture notes, exercises, and exams.
+
+The course progresses from convex sets and functions through duality, applications, unconstrained minimization, constrained minimization, and interior-point methods. Lecture 16 specifically covers gradient methods, steepest descent, Newton’s method, and convergence analysis. [[ocw.mit.edu]](https://ocw.mit.edu/courses/6-079-introduction-to-convex-optimization-fall-2009/pages/lecture-notes/)
+
+- [MIT course lecture notes](https://ocw.mit.edu/courses/6-079-introduction-to-convex-optimization-fall-2009/pages/lecture-notes/)
+
+### Relevant sequence
+
+1. Lecture 1: Introduction to optimization
+2. Lecture 2: Convex sets
+3. Lecture 3: Convex functions
+4. Lecture 4: Convex optimization problems
+5. Lecture 5: Duality
+6. Lecture 16: Gradient and steepest-descent methods
+7. Lecture 17: Equality-constrained minimization
+8. Lecture 18: Interior-point methods
+
+Although this resource is primarily notes rather than a polished video playlist, it is an excellent companion to video lectures because the sequence aligns closely with a standard graduate optimization course. [[ocw.mit.edu]](https://ocw.mit.edu/courses/6-079-introduction-to-convex-optimization-fall-2009/pages/lecture-notes/)
+
+---
+
+## Best for subgradients and advanced first-order methods
+
+### Stanford EE364B: Convex Optimization II
+
+**Instructor:** Stephen Boyd and course collaborators  
+**Level:** Advanced  
+**Best for:** Subgradient methods, proximal methods, ADMM, mirror descent, and distributed optimization.
+
+This is the natural continuation after EE364A. The course materials include subgradient methods, stochastic subgradient descent, mirror descent, proximal algorithms, operator splitting, ADMM, cutting-plane methods, and Newton-type methods. [[web.stanford.edu]](https://web.stanford.edu/class/ee364b/videos.html), [[web.stanford.edu]](https://web.stanford.edu/class/ee364b/lectures.html)
+
+- [Stanford EE364B lecture videos](https://web.stanford.edu/class/ee364b/videos.html)
+- [Stanford EE364B notes and slides](https://web.stanford.edu/class/ee364b/lectures.html)
+
+This course is particularly relevant to the nondifferentiable extension in your note:
+
+xt+1=xt−ηgt,gt∈∂f(xt).x_{t+1}=x_t-\eta g_t, \qquad g_t\in\partial f(x_t).xt+1​=xt​−ηgt​,gt​∈∂f(xt​).
+
+Start with these topics:
+
+1. Subgradients
+2. Subgradient methods
+3. Constrained subgradient methods
+4. Stochastic subgradient methods
+5. Mirror descent
+6. Proximal algorithms
+
+---
+
+## Best alternative full course
+
+### NPTEL: Convex Optimization
+
+**Instructor:** Joydeep Dutta, IIT Kanpur  
+**Level:** Intermediate to advanced  
+**Best for:** A slower, mathematically detailed presentation.
+
+The NPTEL course has 42 lectures, generally around 35–60 minutes each. It provides a sustained mathematical treatment and is useful if the pace of Stanford EE364A feels too fast. [[youtube.com]](https://www.youtube.com/playlist?list=PLbMVogVj5nJQHFqfiSdgaLCCWvDcm1W4l)
+
+- [NPTEL Convex Optimization playlist](https://www.youtube.com/playlist?list=PLbMVogVj5nJQHFqfiSdgaLCCWvDcm1W4l)
+
+A shorter 17-video NPTEL playlist is also available, though the 42-lecture course is the more complete option. [[youtube.com]](https://www.youtube.com/playlist?list=PL6KtZi1OAytXlHqAlsq6eNqMl7ITONS1k)
+
+---
+
+## Shorter supplementary videos
+
+### Convex optimization and gradient descent overview
+
+This seven-minute video provides a quick review of the connection between convexity and gradient descent. It is useful as a preview, but not as a replacement for a full lecture. [[youtube.com]](https://www.youtube.com/watch?v=38U0eLSyXGA)
+
+[](https://www.youtube.com/watch?v=38U0eLSyXGA)
+
+[![](https://ts4.mm.bing.net/th?id=OVP.wrjiPwRw2n1xTQICojza1gEsDh&pid=15.1&w=313&h=176&c=7&dpr=2)07:23](https://www.youtube.com/watch?v=38U0eLSyXGA)
+
+[[W2-1] Convex Optimization and Gradient Descent](https://www.youtube.com/watch?v=38U0eLSyXGA)
+
+[Enjoy the videos and music you love, upload original content, and share it all with friends, family, and the world on YouTube.](https://www.youtube.com/watch?v=38U0eLSyXGA)
+
+### Convex functions and gradient-descent analysis
+
+This longer lecture covers convex-function properties, subgradients, smoothness, strong convexity, and convergence analysis for gradient descent. The gradient-descent discussion begins after the initial convexity review. [[youtube.com]](https://www.youtube.com/watch?v=WFzRb-Nd--c)
+
+[](https://www.youtube.com/watch?v=WFzRb-Nd--c)
+
+[![](https://ts2.mm.bing.net/th?id=OVP.Sl04_YdpUzJa4iyvC_QsAAHgFo&pid=15.1&w=313&h=176&c=7&dpr=2)02:54:50](https://www.youtube.com/watch?v=WFzRb-Nd--c)
+
+[Optimization in Machine Learning: Lecture 2 (Convex Functions Cont, Analysis of Gradient Descent)](https://www.youtube.com/watch?v=WFzRb-Nd--c)
+
+[Optimization in Machine Learning: Lecture 2 - Continuation of Convex Functions: Properties, Examples, Global Miniman and Local Minima - Analysis of Gradient Descent for Convex Functions: Lipschitz Continuous, Smooth, and Strongly Convex cases](https://www.youtube.com/watch?v=WFzRb-Nd--c)
+
+---
+
+# Recommended learning path
+
+## Fast path: approximately 8–10 hours
+
+Use this if your goal is to understand the attached lecture note and solve related exam problems.
+
+### Stage 1: Convexity foundations
+
+Watch the early Stanford EE364A lectures covering:
+
+- convex sets;
+- convex functions;
+- first-order characterization;
+- convex optimization problems. [[youtube.com]](https://www.youtube.com/watch?v=2H4_7izio9Y), [[youtube.com]](https://www.youtube.com/playlist?list=PLoROMvodv4rMJqxxviPa4AmDClvcbHi6h)
+
+While watching, make sure you can prove:
+
+f(y)≥f(x)+∇f(x)⊤(y−x)f(y)\ge f(x)+\nabla f(x)^\top(y-x)f(y)≥f(x)+∇f(x)⊤(y−x)
+
+and derive:
+
+f(x)−f(x⋆)≤∇f(x)⊤(x−x⋆).f(x)-f(x^\star) \le \nabla f(x)^\top(x-x^\star).f(x)−f(x⋆)≤∇f(x)⊤(x−x⋆).
+
+### Stage 2: Gradient descent
+
+Study the MIT gradient-descent lecture alongside the provided notes. Focus on the role of smoothness and why a step size such as η≤1/L\eta\le 1/Lη≤1/L arises in the smooth setting. [[mit.edu]](https://www.mit.edu/~gfarina/2024/67220s24_L07_gradient_descent/L07.pdf)
+
+### Stage 3: Reconstruct the convergence proof
+
+Without looking at the solution, derive:
+
+∥xt+1−x⋆∥2=∥xt−x⋆∥2−2η⟨∇f(xt),xt−x⋆⟩+η2∥∇f(xt)∥2.\|x_{t+1}-x^\star\|^2 = \|x_t-x^\star\|^2 -2\eta\langle\nabla f(x_t),x_t-x^\star\rangle +\eta^2\|\nabla f(x_t)\|^2.∥xt+1​−x⋆∥2=∥xt​−x⋆∥2−2η⟨∇f(xt​),xt​−x⋆⟩+η2∥∇f(xt​)∥2.
+
+Then combine it with convexity, telescope over ttt, and use Jensen’s inequality to prove:
+
+f(xˉT)−f(x⋆)≤D22ηT+ηG22.f(\bar x_T)-f(x^\star) \le \frac{D^2}{2\eta T}+\frac{\eta G^2}{2}.f(xˉT​)−f(x⋆)≤2ηTD2​+2ηG2​.
+
+### Stage 4: Nonsmooth extension
+
+Use the EE364B subgradient materials to understand why the same proof works with
+
+gt∈∂f(xt)g_t\in\partial f(x_t)gt​∈∂f(xt​)
+
+when ∥gt∥≤G\|g_t\|\le G∥gt​∥≤G. [[web.stanford.edu]](https://web.stanford.edu/class/ee364b/lectures.html)
+
+---
+
+## Complete path: approximately 30–40 hours
+
+1. Watch all of Stanford EE364A.
+2. Solve exercises from the Boyd–Vandenberghe textbook.
+3. Study MIT’s gradient and Newton method notes.
+4. Continue with Stanford EE364B:
+    - subgradient methods;
+    - projected methods;
+    - proximal methods;
+    - mirror descent;
+    - ADMM. [[ocw.mit.edu]](https://ocw.mit.edu/courses/6-079-introduction-to-convex-optimization-fall-2009/pages/lecture-notes/), [[web.stanford.edu]](https://web.stanford.edu/class/ee364b/lectures.html), [[youtube.com]](https://www.youtube.com/playlist?list=PLoROMvodv4rMJqxxviPa4AmDClvcbHi6h)
+
+---
+
+# My prioritized recommendation
+
+If you choose only three resources:
+
+1. **Stanford EE364A 2023** for the complete conceptual foundation. [[youtube.com]](https://www.youtube.com/playlist?list=PLoROMvodv4rMJqxxviPa4AmDClvcbHi6h)
+2. **MIT Gradient Descent Lecture 7** for a focused convergence analysis. [[mit.edu]](https://www.mit.edu/~gfarina/2024/67220s24_L07_gradient_descent/L07.pdf)
+3. **Stanford EE364B subgradient materials** for the nonsmooth extension and advanced first-order methods. [[web.stanford.edu]](https://web.stanford.edu/class/ee364b/lectures.html)
+
+A particularly effective study pattern is to watch one Stanford lecture, read the corresponding textbook section, and then reproduce one proof entirely from memory. That will reinforce the mathematical structure much more effectively than watching the playlist continuously.

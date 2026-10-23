@@ -1022,3 +1022,93 @@ $$
 \end{gathered}
 }
 $$
+
+## 13. Video Lectures
+For your current material on projected gradient descent, smoothness, and convergence proofs, I’d start with **CMU**’s convex optimization lectures, use Gilbert Strang for geometric intuition, and turn to Stephen Boyd for a broader foundation. CMU’s sequence is the closest match to the topics you have been studying. [stat.cmu](https://www.stat.cmu.edu/~ryantibs/convexopt-F13/)
+
+### 13.1 Closest match to your lecture: CMU — Convex Optimization
+
+Instructors: Ryan Tibshirani and Barnabás Póczos  
+[Course page with lecture notes and video-playlist link](https://www.stat.cmu.edu/~ryantibs/convexopt-F13/)
+
+Watch these lectures:
+
+| Lecture | Topic | Why I recommend it |
+|---|---|---|
+| 4 | Convexity | Reinforces the assumptions behind the optimization guarantees. |
+| 5 | Gradient descent | The most direct starting point for your smooth-gradient-descent material. |
+| 6 | Subgradients | Explains how to work with convex objectives that are not differentiable. |
+| 7 | Subgradient method | Connects bounded subgradients, step-size choices, and slower convergence guarantees. |
+| 8 | Generalized gradient descent and acceleration | A natural continuation toward proximal methods and acceleration. |
+
+These titles and the associated slides, handwritten notes, and scribed notes are listed on the course page. The recordings are available through its “Videos” section. [stat.cmu](https://www.stat.cmu.edu/~ryantibs/convexopt-F13/)
+
+#### What to focus on
+
+For your immediate review, prioritize Lectures 5–7. Pair the subgradient-method recording with Tibshirani’s [subgradient-method slides](https://stat.cmu.edu/~ryantibs/convexopt/lectures/sg-method.pdf), which explicitly discuss projected subgradient descent and explain that projection preserves the usual convergence guarantees when the projection can be computed. [stat.cmu](https://stat.cmu.edu/~ryantibs/convexopt/lectures/sg-method.pdf)
+
+This pairing is particularly useful for connecting the two sides of your notes:
+
+\[
+\text{bounded subgradients and projection}
+\qquad\text{versus}\qquad
+\text{smooth gradients and faster convergence}.
+\]
+
+### 13.2 Best geometric introduction: MIT — Gilbert Strang
+
+#### Lecture 22: “Gradient Descent: Downhill to a Minimum”
+
+Course: *Matrix Methods in Data Analysis, Signal Processing, and Machine Learning*  
+[Watch the lecture on MIT OpenCourseWare](https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/resources/lecture-22-gradient-descent-downhill-to-a-minimum/)
+
+Strang develops gradient descent using a quadratic example,
+
+\[
+F(x,y)=\frac12(x^2+by^2),
+\]
+
+and discusses the zigzagging path that can arise when the curvature differs between directions. The page also includes a least-squares gradient-descent exercise. [ocw.mit](https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/resources/lecture-22-gradient-descent-downhill-to-a-minimum/)
+
+Why it fits your needs:
+
+- It provides a concrete picture of how gradient updates move through an objective.
+- The quadratic example complements the Hessian and smoothness calculations in your study guide.
+- It is a useful intuition-building lecture before returning to the convergence proofs.
+
+I would use this as a geometric supplement, rather than as your primary source for the projected-subgradient proof.
+
+### 13.3 Best comprehensive foundation: Stanford — Stephen Boyd
+
+#### EE364A: Convex Optimization I
+
+[Watch the course through Stanford Engineering Everywhere](https://see.stanford.edu/Course/EE364A/85)
+
+Rather than watching the entire course immediately, select these lectures:
+
+| Lecture | Main topics | Relevance to your study |
+|---|---|---|
+| 2 | Convex sets | Geometry of feasible sets and convexity-preserving operations |
+| 3 | Convex functions | First- and second-order conditions, Jensen’s inequality, epigraphs, and sublevel sets |
+| 5 | Convex optimization problems | Local versus global optima and differentiable optimality conditions |
+| 15 | Unconstrained minimization | Strong convexity, descent methods, gradient descent, and convergence analysis |
+
+The course page provides recordings, transcripts, lecture notes, and exercises. Lecture 15 is listed as 1 hour 17 minutes. [see.stanford](https://see.stanford.edu/Course/EE364A/85)
+
+#### Where to start
+
+For your current gradient-descent work, watch Lecture 15. If the first-order convexity inequality or the geometry of feasible sets still feels abstract, watch Lectures 2–3 first. Those lectures establish the concepts used in the algorithmic analysis. [see.stanford](https://see.stanford.edu/Course/EE364A/85)
+
+One distinction: Boyd’s Lecture 15 ranges beyond your notes into steepest descent and Newton’s method. It is excellent for understanding the broader optimization landscape, but CMU’s first-order-method sequence is the more focused companion to your current material. [stat.cmu](https://www.stat.cmu.edu/~ryantibs/convexopt-F13/)
+
+#### Recommended viewing order
+
+You do not need to finish a full course before benefiting from these recordings.
+
+1. MIT, Strang Lecture 22 — build intuition about quadratic objectives, curvature, and zigzagging. [ocw.mit](https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/resources/lecture-22-gradient-descent-downhill-to-a-minimum/)
+2. CMU Lecture 5 — study gradient descent in a dedicated convex-optimization sequence. [stat.cmu](https://www.stat.cmu.edu/~ryantibs/convexopt-F13/)
+3. CMU Lectures 6–7 — connect subgradients, step sizes, and projection; keep the subgradient-method slides beside the video. [stat.cmu](https://www.stat.cmu.edu/~ryantibs/convexopt-F13/)
+4. Stanford Lecture 15 — broaden the picture to strong convexity and other descent methods. [see.stanford](https://see.stanford.edu/Course/EE364A/85)
+5. CMU Lecture 8 — continue to generalized gradient methods and acceleration after you are comfortable with the basic proofs. [stat.cmu](https://www.stat.cmu.edu/~ryantibs/convexopt-F13/)
+
+For active review, pause after each convergence theorem and reconstruct four items without looking: the assumptions, the update rule, the one-step inequality, and the telescoping argument. This keeps the viewing aligned with the proof-writing work in your lecture notes rather than turning it into passive review.
