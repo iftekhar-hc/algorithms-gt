@@ -1,0 +1,257 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern} % removes bitmap font
+\usepackage{tikz}
+\usepackage{nicematrix}
+\input{./header.tex}
+
+\newcommand{\jan}[1]{\textcolor{red}{Jan: #1}}
+\newcommand{\sahil}[1]{\textcolor{blue}{Sahil: #1}}
+\newcommand{\dy}[1]{\textcolor{purple}{Daniel Y: #1}}
+\newcommand{\mx}[1]{\textcolor{blue}{Max: #1}}
+\newcommand{\sg}[1]{\textcolor{cyan}{Sharay: #1}}
+\newcommand{\ac}[1]{\textcolor{cyan}{Allen: #1}}
+\newcommand{\sera}[1]{\textcolor{magenta}{Sera: #1}}
+\newcommand{\frank}[1]{\textcolor{purple}{Frank: #1}}
+% \newcommand{\joe}[1]{\textcolor{brown}{Joe: #1}}
+\newcommand{\Varun}[1]{\textcolor{brown}{Varun: #1}}
+\newcommand{\aryan}[1]{\textcolor{red} {Aryan: #1}}
+
+\title{Linear Programming and Convex Optimization\\Problem Set 3 -- CS 6515/4540 (Fall 2026)}
+\date{}
+\begin{document}
+\maketitle
+\vspace{-50pt}
+\noindent
+This problem set is due on \textbf{Tuesday October 13th}. Submission is via Gradescope. Your solution must be a typed pdf (e.g.~via LaTeX) -- no handwritten solutions.
+
+
+
+%\paragraph{Additional Instruction:}
+
+%\jan{collecting exercise ideas.}
+\setcounter{section}{9}
+
+
+% \section{Convex Sets}
+% \noindent
+% We will study properties of convex sets in the Euclidean space. 
+% \begin{enumerate}
+% \item Does every convex body $K \subseteq \mathbb{R}^n$ have a finite number of vertices\footnote{Points $u \in K$ is called a vertex if cannot be expressed as a convex combination of some finite number of other points in $K$}? Give a proof or a counterexample. 
+% \item Is the intersection of two convex sets also a convex set? What about union? For each, prove it or give a counterexample. 
+% \item Is a convex set in $n$ dimensions always bounded (finite volume) or could be unbounded? Give a proof that it is bounded or a counterexample. 
+
+%  \end{enumerate}
+
+
+\section{LPs}
+    Alice is trying to get enough oranges and bananas to host a fruit party. To successfully host a party she needs \textbf{at least 8 oranges} and \textbf{at least 20 bananas}. Unfortunately, her local grocery story only sells fruit in bundles. Bundle A costs 3 dollars and contains one orange and two bananas. Bundle B costs 2 dollars and contains three oranges and a banana. Fortunately, the grocery story will allow Alice to buy fractions of bundles (i.e. she can buy 2.5 bundle As to get 2.5 oranges and 5 bananas). They will not allow Alice to buy negative bundles (i.e. she cannot buy -1 bundle As and 3 bundle Bs to get 5 oranges and a banana). 
+
+\textbf{Alice would like to buy $x_A$ bundle As and $x_B$ bundle Bs to guarantee she has at least 8 oranges and at least 20 bananas.} Moreover, she would like to  minimize her dollars spent. 
+
+\begin{enumerate}
+
+\item  Write a linear program whose solution is the optimal choice of $x_A, x_B$ for Alice's problem and briefly justify why this is the correct LP.
+
+
+
+
+
+
+\item  Show that there exists a solution to this linear program with objective value $30$ (and hence Alice has to spend at most $30$ dollars).
+
+
+
+
+\item  Prove that every feasible solution to this linear program has value at least $30$  (prove this by taking a non-negative linear combination of the constraints), so the solution in the previous part is optimal.
+
+\
+\end{enumerate}
+
+
+\section{LP Equivalent Formulation}
+\begin{enumerate}
+    \item Show that the class of left LPs (LP1) can efficiently represent any LP on the right (LP2). In other words, if we have a polynomial time algorithm to solve any LP1 on the left, then we can solve in polynomial time  any LP2 on the right.
+
+\begin{minipage}{.5\linewidth}
+%\vspace{-0.5cm}
+\begin{align*}
+\tag{LP1} \max& \sum_{i=1}^n c_i x_i\\
+\text{s.t.}\quad \sum_{i=1}^n A_{ji} x_i = b_j, &\quad \forall j \in \{1,\ldots, m\}\\
+x_i \geq 0, &\quad \forall i \in \{1,\ldots,n\}.\\
+\end{align*}
+      \end{minipage}%
+ \quad \vrule{}
+\begin{minipage}{.5\linewidth}
+\begin{align*}
+\tag{LP2} \max &\sum_{i=1}^n c_i x_i\\
+\text{s.t.}\quad \sum_{i=1}^n A_{ji} x_i \leq b_j, &\quad \forall j \in \{1,\ldots,m\} \\
+\end{align*}
+      \end{minipage}
+(Hint: You need two ideas: (1)~We can replace unconstrained $x$ by $x= x^+ - x^-$ where $x^+ \geq 0$ and  $x^- \geq 0$. (2)~We can replace $Ax \leq b$ by $Ax + Z=b$ for some vector $Z\geq 0$.
+)
+
+
+
+      
+    \item Now use a similar idea to show that Farkas' Lemma A below implies Farkas' Lemma B.
+    \begin{itemize}
+
+         \item  Farkas' Lemma A says that the system of inequalities $\sum_{i=1}^n A_{ji} x_i = b_j$ for $j \in \{1,\ldots,m\}$ and $x_i \geq 0$ for $i\in \{1,\ldots, n\}$ are infeasible iff there exist $\lambda_j$ for $j \in \{1,\ldots,m\}$ such that 
+        \[
+        \sum_{j=1}^m \lambda_j b_j <0 \qquad \text{and} \qquad  
+        \sum_{j=1}^m \lambda_j A_{ji} \geq 0  \quad \forall i\in \{1,\ldots, n\}.
+        \]
+
+    
+        \item  Farkas' Lemma B says that the system of inequalities $\sum_{i=1}^n A_{ji} x_i \leq b_j$ for $j \in \{1,\ldots,m\}$   are infeasible iff there exist \emph{non-negative} $\lambda_j \geq 0$ for $j \in \{1,\ldots,m\}$ such that 
+        \[
+        \sum_{j=1}^m \lambda_j b_j < 0 \qquad \text{and} \qquad  
+        \sum_{j=1}^m \lambda_j A_{ji} = 0  \quad \forall i\in \{1,\ldots, n\}.
+        \]
+        \end{itemize}
+
+    
+\end{enumerate}
+
+
+\section{LP for Regression}
+%\begin{enumerate}     \item 
+Suppose we are given $n$ points $(x_1, y_1),(x_2, y_2),...,(x_n, y_n) \in \mathbb{R}\times \mathbb{R}$. The goal of this problem is to find a line $y = ax + b$, where $a,b \in\mathbb{R}$   that fits these points as closely as possible, where closeness is defined according to some objective function.
+Write a polynomial-sized LP for the following settings:
+\begin{enumerate}
+    \item $\ell_1$ regression: Objective is to minimize $ \sum_{i=1}^n |y_i - a x_i -b|$.
+    
+  
+    
+    \item $\ell_\infty$ regression: Objective is to  minimize  $ \max_{i=1}^n |y_i - a x_i -b|$
+
+ 
+
+    \item Write the dual LPs for both the above LPs.
+\end{enumerate}
+
+
+% \section{Convex Functions}
+% \begin{enumerate} 
+
+% \item Given two  convex functions $f : \mathbb{R} \rightarrow \mathbb{R} $ and $g : \mathbb{R} \rightarrow \mathbb{R}$, is the sum $f + g$ also convex? Either prove it or give a counterexample. 
+
+
+% \item Given two  convex functions $f : \mathbb{R} \rightarrow \mathbb{R} $ and $g : \mathbb{R} \rightarrow \mathbb{R}$, is the product $fg$ also convex? Either prove it or give a counterexample. 
+% \item What about the convexity of the function $h : \mathbb{R} \rightarrow \mathbb{R}$ defined by $h(x) = \max (f(x), g(x))$? Prove it or give a counterexample. 
+% \item Show an $\alpha$-strongly convex function (defined in Pb \ref{sec:StrongConvex}) $f : \mathbb{R} \rightarrow \mathbb{R}$ satisfies $f(x) = \Omega(x^2)$
+% \end{enumerate}
+
+
+\section{The Minimax Theorem via LP Duality}
+Consider a two-player game specified by a matrix $A\in\mathbb{R}^{m\times n}$,
+where $m,n\geq 1$. Alice chooses a row $i\in\{1,\ldots,m\}$ and Bob chooses
+a column $j\in\{1,\ldots,n\}$, simultaneously. Alice receives payoff $A_{ij}$
+and Bob receives payoff $-A_{ij}$. Thus Alice wants to maximize Alice's
+payoff, while Bob wants to minimize it. Entries of $A$ may be positive,
+zero, or negative.
+
+The players may randomize their choices independently. A \emph{mixed strategy}
+for Alice is a probability vector $p\in\Delta_m$, where
+\[
+\Delta_k=\left\{z\in\mathbb{R}^k:z_\ell\geq 0\text{ for all }\ell,
+\ \sum_{\ell=1}^k z_\ell=1\right\}.
+\]
+Similarly, Bob's mixed strategy is $q\in\Delta_n$. Their expected payoff
+to Alice is
+\[
+p^\top A q=\sum_{i=1}^m\sum_{j=1}^n p_i A_{ij}q_j.
+\]
+Alice's largest guaranteed expected payoff is
+$\max_{p\in\Delta_m}\min_{q\in\Delta_n}p^\top A q$.
+Bob's smallest guaranteed upper bound on Alice's expected payoff is
+$\min_{q\in\Delta_n}\max_{p\in\Delta_m}p^\top A q$.
+These guarantees allow an opponent to know the chosen probability vector,
+but not the outcome of the random choice.
+
+\medskip
+\noindent\textbf{Minimax theorem.} For every real matrix $A$,
+\[
+\boxed{
+\max_{p\in\Delta_m}\min_{q\in\Delta_n}p^\top A q
+=
+\min_{q\in\Delta_n}\max_{p\in\Delta_m}p^\top A q.
+}
+\]
+Moreover, there are mixed strategies $p^*\in\Delta_m$, $q^*\in\Delta_n$
+and a real number $V$ such that
+\[
+(p^*)^\top A q\geq V\quad\text{for every }q\in\Delta_n,
+\qquad
+p^\top A q^*\leq V\quad\text{for every }p\in\Delta_m.
+\]
+Consequently, $(p^*)^\top A q^*=V$. The number $V$ is called the
+\emph{value of the game}.
+
+Your goal is to prove this theorem using strong LP duality. Consider the
+following primal LP, whose variables are $p_1,\ldots,p_m$ and $v$:
+\[
+\begin{array}{ll}
+\text{maximize} & v\\[2pt]
+\text{subject to}
+ & \displaystyle v-\sum_{i=1}^m A_{ij}p_i\leq 0
+       \quad\text{for }j=1,\ldots,n,\\[6pt]
+ & \displaystyle\sum_{i=1}^m p_i=1,\\[4pt]
+ & p_i\geq 0\quad\text{for }i=1,\ldots,m,\\[2pt]
+ & v\in\mathbb{R}\quad\text{(unrestricted in sign).}
+\end{array}
+\]
+\begin{enumerate}
+\item For a fixed $p\in\Delta_m$, show that
+\[
+\min_{q\in\Delta_n}p^\top A q
+=\min_{1\leq j\leq n}\sum_{i=1}^m A_{ij}p_i.
+\]
+Use this to explain why the primal LP's optimal value equals Alice's
+largest guaranteed expected payoff. Show that the LP is feasible and
+its objective is bounded above.
+
+\item Derive the dual LP, using $q_1,\ldots,q_n$ for the dual variables
+corresponding to the payoff constraints and $w$ for the variable
+corresponding to $\sum_i p_i=1$. State all sign restrictions.
+
+\emph{Hint:} In a maximization primal, an equality constraint gives an
+unrestricted dual variable, and an unrestricted primal variable gives
+an equality constraint in the dual.
+
+\item Explain why the dual LP's optimal value equals Bob's smallest
+guaranteed upper bound on Alice's expected payoff. Apply strong LP duality
+to prove the displayed minimax equality. Finally, use optimal primal and
+dual solutions to obtain $p^*,q^*,V$ satisfying both guarantees in the
+theorem.
+\end{enumerate}
+
+ \section{Convex Sets and Convex Functions}
+For each part, give a proof or a counterexample. You may not assume that
+convex functions are differentiable.
+\begin{enumerate}
+\item If $K,L\subseteq\mathbb{R}^n$ are convex sets, must $K\cap L$ be convex?
+Must $K\cup L$ be convex? Answer both questions.
+\item If $f,g:\mathbb{R}\to\mathbb{R}$ are convex functions, must $f+g$ be convex?
+\item If $f,g:\mathbb{R}\to\mathbb{R}$ are convex functions, must their
+pointwise product $h(x)=f(x)g(x)$ be convex?
+\item If $f,g:\mathbb{R}\to\mathbb{R}$ are convex functions, must
+$h(x)=\max\{f(x),g(x)\}$ be convex?
+\end{enumerate}
+
+\section{Gradient Descent for Strongly-Convex Functions} \label{sec:StrongConvex}
+ A differentiable function $f$ is $\alpha$-strongly convex for $\alpha >0$ if for all $x,y \in \mathbb{R}^n$ we have 
+ \[ f(y) \geq f(x) + \langle \nabla f(x), y-x \rangle + \frac{\alpha}{2}\|y-x\|_2^2 .\]
+ 
+ Consider an $\alpha$-strongly convex differentiable function $f$  with the 2-norm of its gradient always bounded by $G$. The goal is to minimize $f$ and let $x^*$ denote its minimum. 
+ 
+ Show that the  gradient descent algorithm with  step size $\frac{1}{\alpha (t+1)}$ satisfies 
+ \[ f\Big( \frac{\sum_t x_t}{T} \Big) - f(x^*) \leq \frac{G^2 (1+\log T)}{2 \alpha T}.\] 
+ Thus, strong-convexity allows us to get $1/T$ dependency in regret instead of $1/\sqrt{T}$ dependency for general convex functions.
+
+(Hint: Change the potential function in the analysis from class to  $\Phi(t) = \frac{t \alpha}{2} \|x_t - x^* \|^2$. Also, use that $\sum_{t\in \{1,\ldots, T\}}\frac{1}{t} \leq 1+\log T$.)
+
+ 
+
+\end{document}

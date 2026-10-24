@@ -1,0 +1,99 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern} % removes bitmap font
+\usepackage{tikz}
+\usepackage{nicematrix}
+\input{./header.tex}
+
+\newcommand{\jan}[1]{\textcolor{red}{Jan: #1}}
+\newcommand{\sahil}[1]{\textcolor{blue}{Sahil: #1}}
+\newcommand{\dy}[1]{\textcolor{purple}{Daniel Y: #1}}
+\newcommand{\mx}[1]{\textcolor{blue}{Max: #1}}
+\newcommand{\sg}[1]{\textcolor{cyan}{Sharay: #1}}
+\newcommand{\ac}[1]{\textcolor{cyan}{Allen: #1}}
+\newcommand{\sera}[1]{\textcolor{magenta}{Sera: #1}}
+\newcommand{\frank}[1]{\textcolor{purple}{Frank: #1}}
+% \newcommand{\joe}[1]{\textcolor{brown}{Joe: #1}}
+\newcommand{\Varun}[1]{\textcolor{brown}{Varun: #1}}
+\newcommand{\aryan}[1]{\textcolor{red} {Aryan: #1}}
+
+\title{Convex Optimization and Approximation Algorithms\\Problem Set 4 -- CS 6515/4540 (Fall 2026)}
+\date{}
+\begin{document}
+\maketitle
+\vspace{-50pt}
+\noindent
+This problem set is due on \textbf{Sunday, October 25th}. Submission is via Gradescope. Your solution must be a typed pdf (e.g.~via LaTeX) -- no handwritten solutions.
+
+
+
+%\paragraph{Additional Instruction:}
+
+%\jan{collecting exercise ideas.}
+\setcounter{section}{15}
+
+ 
+
+
+ 
+
+
+\section{Non-Convex Function}
+
+In class we assumed function $f$ is convex. This problem considers the non-convex case.
+We want to show that for $\beta$-smooth $f$, after $T$ iterations with step size $\eta \le 1/\beta$ we can find a point $x'$ with
+$$
+\|\nabla f(x')\| \le \sqrt{\frac{2}{\eta \cdot t} (f(x^0) - f(x^*))}.
+$$
+(Note that for a local optimum we have $\nabla f(x) = 0$, so a small norm $\|\nabla f(x')\|$ indicates that we are close to a local optimum or saddle point.)
+
+%Assume $f$ is an $L$-smooth function. (Not necessarily convex.)
+Proving this from scratch is a bit tricky, so we provide the following subproblems to guide you to a proof. Each subproblem can be solved in a few lines of calculation/algebra.
+\paragraph{Problem:}
+\begin{enumerate}
+    %\item Show
+    %$f(x+\delta) \le f(x) + \nabla f(x)^\top \delta + \frac{L}{2}\|\delta\|^2$
+    \item Show
+    $f(x^{t+1}) \le f(x^t) - \frac{\eta}{2} \|\nabla f(x^t)\|^2$ (Hint: Check the proof from class. Does it work for non-convex functions?)
+    \item Show
+    $
+    \sum_{k=0}^t \|\nabla f(x^k)\|^2 \le \frac{2}{\eta} (f(x^0) - f(x^*))
+    $ (Hint: 1.~implies $\frac{\eta}{2} \|\nabla f(x^t)\|^2 \le ...$)
+    \item Show
+    $
+\min_{k=0...t}\|\nabla f(x^k)\| \le \sqrt{\frac{2}{\eta \cdot T} (f(x^0) - f(x^*))}.
+$
+\end{enumerate}
+where $x^*$ is the global optimum $f(x^*) = \min_x f(x)$.
+
+You are allowed to use subproblems to solve later subproblems (e.g., use 1+2 to solve 3), even if you did not prove them. 
+
+\section{Greedy Approximation Algorithm}
+
+Consider placing $n$ items into $m$ bins. Item $i$ has weight $w_i$. We want to place these $n$ items into the bins such that the maximum total weight of a bin is minimized. Consider the following greedy
+algorithm:\\
+
+Sort the weights $w_i$ in decreasing order. Going through the items in decreasing order of weight, we place each item in the bin with the least current load (as we iterate through the items and place
+more items into bins, the least loaded bin may change).
+Show this algorithm gives a $1.5-$approximation for the least possible maximum load of any placement of these $n$ items into the $m$ bins.
+
+\section{Hitting Set via Deterministic Rounding}
+
+Let $W=\{w_1, w_2, \ldots, w_n\}$ be a set of positive numbers and let $B_1, B_2, \ldots, B_m$ be subsets of the set $[n]=\{1,2,\ldots, n\}$. We said $H\subseteq [n]$ is a {\it hitting set} if $H\cap B_i\neq \emptyset$ for all $1\leq i\leq m$. Denote by $b=\max |B_j|$ the size of the largest set $B_j,~1\leq j\leq m$. Consider the {\tt Minimum Hitting Set} problem, where we assign weigth $w_i$ to number $i$ and aim to find the hitting set $H$ of minimum weight $\sum_{i\in H} w_i$.\\ 
+
+
+\begin{enumerate}
+    \item Write a LP instance for this problem. Clearly define the variables, objective function, and constraints.
+    
+    \item Let $x^*$ be a solution of the relaxed LP problem. Consider the deterministic rounding 
+    \[
+      \hat{x}_i=\begin{cases}
+      & 1~\text{if $x^*_i\geq b^{-1}$}\\
+      & 0~\text{else}
+    \end{cases}
+    \]
+    Prove that the set $H'=\{i~|~\hat{x}_i=1\}$ is a hitting set.
+    \item Show that the deterministic rounding in part (b) yields a $b-$approximation of the {\tt Minimum Hitting Set} problem.
+\end{enumerate}
+
+\end{document}
